@@ -3,18 +3,23 @@ package frc.robot.subsystems;
 import java.util.List;
 
 import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonPipelineResult;
+//import org.photonvision.targeting.PhotonPipelineResult;
 
-import ;
+//import ;
 import com.studica.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.library.SwerveModule;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,6 +27,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonTrackedTarget;
+import com.pathplanner.lib.config.RobotConfig;
 
 
 
@@ -43,6 +50,8 @@ public class DrivetrainSubsystem extends SubsystemBase{
 
   private final PhotonCamera camera = new PhotonCamera("Arducam1");
   private final PhotonPipelineResult result = new PhotonPipelineResult();
+  private final PhotonTrackedTarget target = new PhotonTrackedTarget();
+  private final AprilTagFieldLayout aprilTag = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
   
 
   // Odometry class for tracking robot pose
@@ -110,9 +119,13 @@ public class DrivetrainSubsystem extends SubsystemBase{
    * @implNote edu.wpi.first.math.kinematics.SwerveDriveOdometry.getPoseMeters()
    * 
    */
-  public Pose2d getPose() {
+  public Pose3d getPose() {
     //return m_odometry.getPoseMeters();
-    return PhotonUtils.estimateFieldToRobot(0, 0, 0, 0, new Rotation2d(), getRobotRotation2D(), new Pose2d(), new Transform2d(3, 0, new Rotation2d(0)));
+    if (aprilTag.getTagPose(target.getFiducialId()).isPresent()){
+      return PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), aprilTag.getTagPose(target.getFiducialId()).get(), new Transform3d());
+    } else {
+      return null;
+    }
   }
 
   /**
