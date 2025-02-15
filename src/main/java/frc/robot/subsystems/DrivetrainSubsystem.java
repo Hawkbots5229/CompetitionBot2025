@@ -18,7 +18,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.library.SwerveModule;
@@ -28,7 +27,11 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
+
+import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 
 
@@ -79,7 +82,23 @@ public class DrivetrainSubsystem extends SubsystemBase{
     try{
       config = RobotConfig.fromGUISettings();
     } catch (Exception e){
+      System.out.println("Error Loading Config: " + e.getMessage());
+      throw new RuntimeException("Unable to initialize RobotConfig.");
     }
+
+    AutoBuilder.configure(
+      () -> this.getPose(),
+      pose -> this.resetOdometry(getPose()),
+      () -> new ChassisSpeeds(getVelocity(), 0, 0),
+      (speeds, feedforwards) -> driveRobotRelativeSpeeds(speeds, true),
+      new PPHolonomicDriveController(
+        new PIDConstants(5.0, 0.0, 0.0),
+        new PIDConstants(5.0, 5.0, 5.0)
+      ),
+      config,
+      () ->false,
+      this
+    );
   
   }
 
@@ -119,8 +138,11 @@ public class DrivetrainSubsystem extends SubsystemBase{
    * @implNote edu.wpi.first.math.kinematics.SwerveDriveOdometry.getPoseMeters()
    * 
    */
-  public Pose3d getPose() {
-    //return m_odometry.getPoseMeters();
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  public Pose3d getPose3d() {
     if (aprilTag.getTagPose(target.getFiducialId()).isPresent()){
       return PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), aprilTag.getTagPose(target.getFiducialId()).get(), new Transform3d());
     } else {
@@ -169,6 +191,17 @@ public class DrivetrainSubsystem extends SubsystemBase{
           isFieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d())
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        swerveModuleStates, DriveConstants.maxSpeed);
+    m_frontLeft.setDesiredState(swerveModuleStates[0], optimize, false, false);
+    m_frontRight.setDesiredState(swerveModuleStates[1], optimize, false, false);
+    m_rearLeft.setDesiredState(swerveModuleStates[2], optimize, false, false);
+    m_rearRight.setDesiredState(swerveModuleStates[3], optimize, false, false);
+  }
+
+  public void driveRobotRelativeSpeeds(ChassisSpeeds speeds, boolean optimize) {
+    var swerveModuleStates =
+        DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.maxSpeed);
     m_frontLeft.setDesiredState(swerveModuleStates[0], optimize, false, false);
@@ -264,7 +297,20 @@ public class DrivetrainSubsystem extends SubsystemBase{
     return getDriveDistanceMeters() / DriveConstants.MetersPerInch;
   }
 
- 
+  /** Gets the drive speed of the wheels in meters/second.  This is the average of the velocity of each motor
+   * 
+   * @return Velocity (meters/second)
+   * @param None
+   * @implNote getDriveVelocity()
+   * 
+   */
+  public double getVelocity() {
+    return 
+    (m_frontLeft.getDriveVelocity()
+    + m_frontRight.getDriveVelocity()
+    + m_rearLeft.getDriveVelocity()
+    + m_rearRight.getDriveVelocity())/4;
+  }
 
   /** Returns the angle of the robot. Direction of rate can be changed with DriveConstants
    * 
