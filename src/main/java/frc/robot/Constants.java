@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -146,6 +147,38 @@ public final class Constants {
     
     public static final double driveDistanceCntsPMeter = 7.73/(0.1016*Math.PI); //49907
     public static final double driveRawVelocityToMPS = 4990.68;
+  }
+
+  public static class ElevatorConstants {
+    public static final int kLeftMotorPort = 21;
+    public static final int kRigthMotorPort = 20;
+
+    public static final double maxVoltage = 12.0;
+    public static final int kCurrentLimit = 40;
+    public static final double kOpenLoopRampRate = 10;
+    public static final IdleMode kIdleMode = IdleMode.kBrake;
+
+    public static final double kPPos = 0.5;
+    public static final double kIPos= 0.01;
+    public static final double kDPos = 0;
+    public static final double kPosErrTolerance = 1;
+
+    public static final double kMaxVel = Math.PI/4.0; //RadPerSec
+    public static final double kMaxAcc = Math.pow(kMaxVel,2);; //RadPerSecSqrd
+    
+    public static final boolean kLeftMoterInverted = false;
+    public static final boolean kRightMotorInverted = true;
+
+
+  }
+
+  public static class ClimbConstants {
+    public static final int kMotorPort = 22;
+
+    public static final boolean kClimbMotorInverted = false;
+    public static final IdleMode kIdleMode = IdleMode.kBrake;
+    public static final double maxVoltage = 12.0;
+    public static final int kCurrentLimit = 40;
   }
 
   public static class OperatorConstants {
