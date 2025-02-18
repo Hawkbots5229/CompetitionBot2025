@@ -4,7 +4,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
@@ -35,22 +34,25 @@ public class ElevatorSubsystem extends SubsystemBase{
             new TrapezoidProfile.Constraints(
                 ElevatorConstants.kMaxVel * ElevatorConstants.maxVoltage,
                 ElevatorConstants.kMaxAcc * ElevatorConstants.maxVoltage));
-    
-    private SparkMaxConfig m_leftConfig = new SparkMaxConfig();
-    private SparkMaxConfig m_rightConfig = new SparkMaxConfig();
 
     public ElevatorSubsystem() {
-        m_leftConfig.idleMode(IdleMode.kBrake);
-        m_leftConfig.inverted(ElevatorConstants.kLeftMoterInverted);
-        m_leftConfig.voltageCompensation(ElevatorConstants.maxVoltage);
-        m_leftConfig.smartCurrentLimit(ElevatorConstants.kCurrentLimit);
-        m_left.configure(m_leftConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        m_left.configure(
+            new SparkMaxConfig().
+                inverted(ElevatorConstants.kLeftMoterInverted).
+                idleMode(ElevatorConstants.kIdleMode).
+                voltageCompensation(ElevatorConstants.maxVoltage).
+                smartCurrentLimit(ElevatorConstants.kCurrentLimit), 
+            ResetMode.kResetSafeParameters, 
+            PersistMode.kNoPersistParameters);
 
-        m_rightConfig.idleMode(IdleMode.kBrake);
-        m_rightConfig.inverted(ElevatorConstants.kRightMotorInverted);
-        m_rightConfig.voltageCompensation(ElevatorConstants.maxVoltage);
-        m_rightConfig.smartCurrentLimit(ElevatorConstants.kCurrentLimit);
-        m_right.configure(m_leftConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        m_right.configure(
+            new SparkMaxConfig().
+                inverted(ElevatorConstants.kRightMotorInverted).
+                idleMode(ElevatorConstants.kIdleMode).
+                voltageCompensation(ElevatorConstants.maxVoltage).
+                smartCurrentLimit(ElevatorConstants.kCurrentLimit), 
+            ResetMode.kResetSafeParameters, 
+            PersistMode.kNoPersistParameters);
 
         resetEncoders();
 

@@ -5,7 +5,6 @@
 package frc.robot;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -181,7 +180,24 @@ public final class Constants {
     public static final int kCurrentLimit = 40;
   }
 
+  public static class CoralConstants {
+    public static final int kMotorPort = 23;
+    public static final boolean kMotorInverted = false;
+
+    public static final IdleMode kIdleMode = IdleMode.kBrake;
+    public static final double maxVoltage = 12.0;
+    public static final int kCurrentLimit = 30;
+    public static final double kOpenLoopRampRate = 0;
+    public static final double kMaxOutput = 1.0;
+        
+    public static final double kGearBoxRatio = 1/7.0;
+    public static final double kEncoderRpmToWheelRpm = kGearBoxRatio;
+
+    public static final double kMaxVel = 1;
+  }
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    
   }
 }

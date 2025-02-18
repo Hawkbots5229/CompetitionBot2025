@@ -17,15 +17,15 @@ public class ClimbSubsystem extends SubsystemBase{
     
     private final RelativeEncoder m_climbEncoder = m_climb.getEncoder();
 
-    private SparkMaxConfig m_climbConfig;
-
     public ClimbSubsystem() {
-        m_climbConfig.inverted(ClimbConstants.kClimbMotorInverted);
-        m_climbConfig.idleMode(ClimbConstants.kIdleMode);
-        m_climbConfig.voltageCompensation(ClimbConstants.maxVoltage);
-        m_climbConfig.smartCurrentLimit(ClimbConstants.kCurrentLimit);
-
-        m_climb.configure(m_climbConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        m_climb.configure(
+            new SparkMaxConfig().
+                inverted(ClimbConstants.kClimbMotorInverted).
+                idleMode(ClimbConstants.kIdleMode).
+                voltageCompensation(ClimbConstants.maxVoltage).
+                smartCurrentLimit(ClimbConstants.kCurrentLimit), 
+            ResetMode.kResetSafeParameters, 
+            PersistMode.kNoPersistParameters);
 
         resetEncoders();
     }
