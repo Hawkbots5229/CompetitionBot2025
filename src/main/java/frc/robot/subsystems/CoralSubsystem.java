@@ -22,8 +22,9 @@ public class CoralSubsystem extends SubsystemBase{
             new SparkMaxConfig().
                 inverted(CoralConstants.kMotorInverted).
                 idleMode(CoralConstants.kIdleMode).
+                openLoopRampRate(CoralConstants.kOpenLoopRampRate).
                 voltageCompensation(CoralConstants.maxVoltage).
-                smartCurrentLimit(CoralConstants.kCurrentLimit), 
+                secondaryCurrentLimit(CoralConstants.kCurrentLimit), 
             ResetMode.kResetSafeParameters,
             PersistMode.kNoPersistParameters);
 
@@ -83,7 +84,7 @@ public class CoralSubsystem extends SubsystemBase{
    * @implNote com.revrobotics.spark.SparkBase.stopMotor()
    * 
    */
-    public void stopmotors() {
+    public void stopMotors() {
         m_coral.stopMotor();
     }
     

@@ -4,12 +4,28 @@
 
 package frc.robot;
 
+import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.CoralSetSpdCommand;
+import frc.robot.commands.ElevatorSetPosCommand;
+import frc.robot.commands.IntakeSetSpdCommand;
+import frc.robot.commands.dflt.CoralDefaultCommand;
+import frc.robot.commands.dflt.DriveTrainDefaultCommand;
+import frc.robot.commands.dflt.ElevatorDefaultCommand;
+import frc.robot.commands.dflt.IntakeDefaultCommand;
+import frc.robot.library.ElevatorController;
+import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,22 +38,36 @@ import com.pathplanner.lib.auto.AutoBuilder;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  public static DrivetrainSubsystem m_robotDrive = new DrivetrainSubsystem();
+  private DriveTrainDefaultCommand driveTrainDefaultCommand = new DriveTrainDefaultCommand(m_robotDrive);
+  public static ElevatorSubsystem m_robotElevator = new ElevatorSubsystem();
+  public static ElevatorController l_elevatorPos = new ElevatorController(ElevatorSubsystem.elevatorPos.k0);
+  private ElevatorDefaultCommand elevatorDefaultCommand = new ElevatorDefaultCommand(m_robotElevator);
+  public static CoralSubsystem m_robotCoral = new CoralSubsystem();
+  private CoralDefaultCommand coralDefaultCommand = new CoralDefaultCommand(m_robotCoral);
+  public static IntakeSubsystem m_robotIntake = new IntakeSubsystem();
+  private IntakeDefaultCommand intakeDefaultCommand = new IntakeDefaultCommand(m_robotIntake);
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  
-  private final SendableChooser<Command> autoChooser;
+  public static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  public static XboxController m_mechController = new XboxController(OIConstants.kMechControllerPort);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  private final SendableChooser<Command> sc_autonSelect;
+
   public RobotContainer() {
-    // Configure the trigger bindings
+    //Configure button bindings
     configureBindings();
 
-    autoChooser = AutoBuilder.buildAutoChooser();
+    //create camera servers
+    CameraServer.startAutomaticCapture("Elevator Camera", 0);
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    sc_autonSelect = AutoBuilder.buildAutoChooser();
+
+    m_robotDrive.setDefaultCommand(driveTrainDefaultCommand);
+    m_robotElevator.setDefaultCommand(elevatorDefaultCommand);
+    m_robotCoral.setDefaultCommand(coralDefaultCommand);
+    m_robotIntake.setDefaultCommand(intakeDefaultCommand);
+
+    SmartDashboard.putData("Auton Selection", sc_autonSelect);
   }
 
   /**
@@ -50,8 +80,28 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    new JoystickButton(m_mechController, OIConstants.kUpDPad)
+      .onTrue(new IntakeSetSpdCommand(m_robotIntake, IntakeSubsystem.intakeDir.kOut))
+      .onFalse(new IntakeSetSpdCommand(m_robotIntake, IntakeSubsystem.intakeDir.kOff));
+    new JoystickButton(m_mechController, OIConstants.kDownDPad)
+      .onTrue(new IntakeSetSpdCommand(m_robotIntake, IntakeSubsystem.intakeDir.kIn))
+      .onFalse(new IntakeSetSpdCommand(m_robotIntake, IntakeSubsystem.intakeDir.kOff));
+
+    new JoystickButton(m_mechController, Button.kY.value)
+      .onTrue(new ElevatorSetPosCommand(ElevatorSubsystem.elevatorPos.k3));
+    new JoystickButton(m_mechController, Button.kA.value)
+      .onTrue(new ElevatorSetPosCommand(ElevatorSubsystem.elevatorPos.k0));
+    new JoystickButton(m_mechController, Button.kX.value)
+      .onTrue(new ElevatorSetPosCommand(ElevatorSubsystem.elevatorPos.k1));
+    new JoystickButton(m_mechController, Button.kB.value)
+      .onTrue(new ElevatorSetPosCommand(ElevatorSubsystem.elevatorPos.k2));
     
+    new JoystickButton(m_mechController, Button.kLeftBumper.value)
+      .onTrue(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kIn))
+      .onFalse(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOff));
+    new JoystickButton(m_mechController, Button.kRightBumper.value)
+      .onTrue(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOUt))
+      .onFalse(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOff));
   }
 
   /**
@@ -61,6 +111,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    return sc_autonSelect.getSelected();
   }
 }

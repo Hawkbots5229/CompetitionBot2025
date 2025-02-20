@@ -132,6 +132,14 @@ public final class Constants {
     kuseAbsEnc);
   }
 
+  public static final class OIConstants {
+    public static final int kDriverControllerPort = 0;
+    public static final int kMechControllerPort = 1;
+
+    public static final int kUpDPad = 180;
+    public static final int kDownDPad = 0;
+  }
+
   public static final class SwerveConstants {
 
     public static final double steerKp = 0.55;
@@ -164,11 +172,15 @@ public final class Constants {
 
     public static final double kMaxVel = Math.PI/4.0; //RadPerSec
     public static final double kMaxAcc = Math.pow(kMaxVel,2);; //RadPerSecSqrd
+    public static final double kGearRatio = 4.45 * Math.PI;
     
     public static final boolean kLeftMoterInverted = false;
     public static final boolean kRightMotorInverted = true;
 
-
+    public static final double k0Lock = 0;
+    public static final double k1Lock = 81;
+    public static final double k2Lock = 121;
+    public static final double k3Lock = 183;
   }
 
   public static class ClimbConstants {
@@ -184,6 +196,22 @@ public final class Constants {
     public static final int kMotorPort = 23;
     public static final boolean kMotorInverted = false;
 
+    public static final IdleMode kIdleMode = IdleMode.kBrake;
+    public static final double maxVoltage = 12.0;
+    public static final int kCurrentLimit = 30;
+    public static final double kOpenLoopRampRate = 0;
+    public static final double kMaxOutput = 1.0;
+        
+    public static final double kGearBoxRatio = 1/7.0;
+    public static final double kEncoderRpmToWheelRpm = kGearBoxRatio;
+
+    public static final double kMaxVel = 1;
+  }
+
+  public static class IntakeConstants {
+    public static final int kMotorPort = 24;
+
+    public static final boolean kIntakeMotorInverted = true;
     public static final IdleMode kIdleMode = IdleMode.kBrake;
     public static final double maxVoltage = 12.0;
     public static final int kCurrentLimit = 30;

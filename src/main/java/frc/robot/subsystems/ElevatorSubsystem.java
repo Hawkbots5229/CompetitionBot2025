@@ -71,22 +71,22 @@ public class ElevatorSubsystem extends SubsystemBase{
         m_rightEncoder.setPosition(0);
     }
 
-    /**Returns the height of the arm
+    /**Returns the height of the elevator
      * 
-     * @return height of the arm
+     * @return height of the elevator (cm)
      * @param None
      * @implNote com.revrobotics.RelativeEncoder.getPosition()
      * 
      */
     public double getPosition() {
-        return m_leftEncoder.getPosition();
+        return m_leftEncoder.getPosition() * ElevatorConstants.kGearRatio;
     }
 
     /**Sets the target height of the elevator
      * Uses PID control to determine the motor speed required to reach that height
      * 
      * @return None
-     * @param tarHeight The target height of the elevator
+     * @param tarHeight The target height of the elevator (cm)
      * @implNote edu.wpi.first.math.controller.ProfiledPIDController()
      * @implNote getPosition()
      * @implNote com.revrobotics.spark.SparkBase.set()
