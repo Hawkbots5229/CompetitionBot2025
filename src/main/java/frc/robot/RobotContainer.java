@@ -4,11 +4,13 @@
 
 package frc.robot;
 
+import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CoralSetSpdCommand;
 import frc.robot.commands.ElevatorSetPosCommand;
 import frc.robot.commands.IntakeSetSpdCommand;
+import frc.robot.commands.auton.AutonomousCoralSetSpd;
 import frc.robot.commands.dflt.CoralDefaultCommand;
 import frc.robot.commands.dflt.DriveTrainDefaultCommand;
 import frc.robot.commands.dflt.ElevatorDefaultCommand;
@@ -30,6 +32,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -68,6 +71,8 @@ public class RobotContainer {
     m_robotIntake.setDefaultCommand(intakeDefaultCommand);
 
     SmartDashboard.putData("Auton Selection", sc_autonSelect);
+
+    NamedCommands.registerCommand("Coral Set Speed", new AutonomousCoralSetSpd(m_robotCoral, CoralConstants.kMaxOutput, 5));
   }
 
   /**
