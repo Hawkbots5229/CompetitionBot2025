@@ -23,21 +23,34 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator Level 3"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.75
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Reef to Coral Station"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Coral Station to Reef"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Reef to Coral Station"
+            "waitTime": 1.0
           }
         },
         {

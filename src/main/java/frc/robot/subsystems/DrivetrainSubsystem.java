@@ -150,6 +150,40 @@ public class DrivetrainSubsystem extends SubsystemBase{
     }
   }
 
+  public Boolean targetVisible() {
+    var results = camera.getAllUnreadResults();
+    if (!results.isEmpty()) {
+      var result = results.get(results.size() - 1);
+      if (result.hasTargets()) {
+        for (var target : result.getTargets()) {
+          if (target.getFiducialId() == 7) {
+            return true;
+          }
+        }
+      }
+      return false;
+    } else {
+      return false;
+    }
+  }
+
+  public double setTargetYaw() {
+    var results = camera.getAllUnreadResults();
+    if (!results.isEmpty()) {
+      var result = results.get(results.size() - 1);
+      if (result.hasTargets()) {
+        for (var target : result.getTargets()) {
+          if (target.getFiducialId() == 7) {
+            return target.getYaw();
+          }
+        }
+      }
+      return 0;
+    } else {
+      return 0;
+    }
+  }
+
   /**
    * Resets the odometry to the specified pose.
    *

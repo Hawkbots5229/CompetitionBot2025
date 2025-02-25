@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "Coral Set Speed",
-      "waypointRelativePos": 1.5,
+      "waypointRelativePos": 1.0,
       "endWaypointRelativePos": null,
       "command": null
     }

@@ -11,6 +11,7 @@ import frc.robot.commands.CoralSetSpdCommand;
 import frc.robot.commands.ElevatorSetPosCommand;
 import frc.robot.commands.IntakeSetSpdCommand;
 import frc.robot.commands.auton.AutonomousCoralSetSpd;
+import frc.robot.commands.auton.AutonomousElevatorSetPos;
 import frc.robot.commands.dflt.CoralDefaultCommand;
 import frc.robot.commands.dflt.DriveTrainDefaultCommand;
 import frc.robot.commands.dflt.ElevatorDefaultCommand;
@@ -20,6 +21,7 @@ import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem.elevatorPos;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -72,7 +74,12 @@ public class RobotContainer {
 
     SmartDashboard.putData("Auton Selection", sc_autonSelect);
 
-    NamedCommands.registerCommand("Coral Set Speed", new AutonomousCoralSetSpd(m_robotCoral, CoralConstants.kMaxOutput, 5));
+    NamedCommands.registerCommand("Coral Set Speed", new AutonomousCoralSetSpd(m_robotCoral, CoralConstants.kMaxOutput, .5));
+    NamedCommands.registerCommand("Elevator Level 0", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k0));
+    NamedCommands.registerCommand("Elevator Level 1", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k1));
+    NamedCommands.registerCommand("Elevator Level 2", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k2));
+    NamedCommands.registerCommand("Elevator Level 3", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k3));
+  
   }
 
   /**
