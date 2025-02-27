@@ -36,8 +36,7 @@ public class AlignRobotCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double targetYaw = 0;
-    
+
     var xSpeed =
       -m_xspeedLimiter.calculate(MathUtil.applyDeadband(RobotContainer.m_driverController.getLeftY(), DriveConstants.stickDeadband))
         * DriveConstants.maxSpeed;
@@ -58,17 +57,21 @@ public class AlignRobotCommand extends Command {
         * DriveConstants.maxAngularSpeed;
 
     if (drive.targetVisible()) {
-      rot = -1 * targetYaw * DriveConstants.maxAngularSpeed;
+      rot = -1 * drive.getTargetYaw(DriveConstants.kReefTags) * DriveConstants.maxAngularSpeed;
     }
+
+    drive.drive(xSpeed * DriveConstants.speedScale, ySpeed * DriveConstants.speedScale, rot * DriveConstants.rotationScale, false, true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drive.stopMotors();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return drive.getTargetYaw(DriveConstants.kReefTags) == 0;
   }
 }

@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
@@ -54,6 +57,8 @@ public final class Constants {
     public static final boolean kRearLeftTurningEncoderReversed = false;
     public static final boolean kFrontRightTurningEncoderReversed = false;
     public static final boolean kRearRightTurningEncoderReversed = false;
+
+    public static final List<Integer> kReefTags = Arrays.asList(6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22);
 
     // Distance between centers of right and left wheels on robot
     public static final double kTrackWidth = 0.65405;

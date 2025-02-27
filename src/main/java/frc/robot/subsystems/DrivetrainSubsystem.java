@@ -167,15 +167,13 @@ public class DrivetrainSubsystem extends SubsystemBase{
     }
   }
 
-  public double setTargetYaw() {
+  public double getTargetYaw(List<Integer> tagID) {
     var results = camera.getAllUnreadResults();
     if (!results.isEmpty()) {
       var result = results.get(results.size() - 1);
-      if (result.hasTargets()) {
-        for (var target : result.getTargets()) {
-          if (target.getFiducialId() == 7) {
-            return target.getYaw();
-          }
+      for(int target : tagID) {
+        if (result.hasTargets() && result.getBestTarget().getFiducialId() == target) {
+          return result.getBestTarget().getYaw();
         }
       }
       return 0;
