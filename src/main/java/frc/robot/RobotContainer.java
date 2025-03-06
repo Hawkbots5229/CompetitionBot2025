@@ -6,9 +6,11 @@ package frc.robot;
 
 import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ClimberSetPosCommand;
+import frc.robot.commands.CoralSetAngleCommand;
 import frc.robot.commands.CoralSetSpdCommand;
 import frc.robot.commands.ElevatorSetPosCommand;
+import frc.robot.commands.IntakeSetAngleCommand;
 import frc.robot.commands.IntakeSetSpdCommand;
 import frc.robot.commands.auton.AutonomousCoralSetSpd;
 import frc.robot.commands.auton.AutonomousElevatorSetPos;
@@ -17,6 +19,7 @@ import frc.robot.commands.dflt.DriveTrainDefaultCommand;
 import frc.robot.commands.dflt.ElevatorDefaultCommand;
 import frc.robot.commands.dflt.IntakeDefaultCommand;
 import frc.robot.library.ElevatorController;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -25,7 +28,6 @@ import frc.robot.subsystems.ElevatorSubsystem.elevatorPos;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -52,6 +54,7 @@ public class RobotContainer {
   private CoralDefaultCommand coralDefaultCommand = new CoralDefaultCommand(m_robotCoral);
   public static IntakeSubsystem m_robotIntake = new IntakeSubsystem();
   private IntakeDefaultCommand intakeDefaultCommand = new IntakeDefaultCommand(m_robotIntake);
+  public static ClimbSubsystem m_robotClimb = new ClimbSubsystem();
 
   public static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public static XboxController m_mechController = new XboxController(OIConstants.kMechControllerPort);
@@ -99,6 +102,21 @@ public class RobotContainer {
       .onTrue(new IntakeSetSpdCommand(m_robotIntake, IntakeSubsystem.intakeDir.kIn))
       .onFalse(new IntakeSetSpdCommand(m_robotIntake, IntakeSubsystem.intakeDir.kOff));
 
+    new JoystickButton(m_mechController, OIConstants.kLeftDPad)
+      .onTrue(new CoralSetAngleCommand(m_robotCoral, 1))
+      .onFalse(new CoralSetAngleCommand(m_robotCoral, 0));
+    new JoystickButton(m_mechController, OIConstants.kLeftDPad)
+      .onTrue(new CoralSetAngleCommand(m_robotCoral, -1))
+      .onFalse(new CoralSetAngleCommand(m_robotCoral, 0));
+
+    new JoystickButton(m_mechController, Button.kRightStick.value)
+      .onTrue(new IntakeSetAngleCommand(m_robotIntake, 1))
+      .onFalse(new IntakeSetAngleCommand(m_robotIntake, 0));
+    new JoystickButton(m_mechController, Button.kLeftStick.value)
+      .onTrue(new IntakeSetAngleCommand(m_robotIntake, -1))
+      .onFalse(new IntakeSetAngleCommand(m_robotIntake, 0));
+    
+
     new JoystickButton(m_mechController, Button.kY.value)
       .onTrue(new ElevatorSetPosCommand(ElevatorSubsystem.elevatorPos.k3));
     new JoystickButton(m_mechController, Button.kA.value)
@@ -114,6 +132,13 @@ public class RobotContainer {
     new JoystickButton(m_mechController, Button.kRightBumper.value)
       .onTrue(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOUt))
       .onFalse(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOff));
+
+    new JoystickButton(m_driverController, Button.kLeftBumper.value)
+      .onTrue(new ClimberSetPosCommand(m_robotClimb, .5))
+      .onFalse(new ClimberSetPosCommand(m_robotClimb, 0));
+    new JoystickButton(m_driverController, Button.kRightBumper.value)
+      .onTrue(new ClimberSetPosCommand(m_robotClimb, -.5))
+      .onFalse(new ClimberSetPosCommand(m_robotClimb, 0));
   }
 
   /**

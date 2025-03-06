@@ -6,10 +6,16 @@ package frc.robot;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import frc.robot.library.SwerveData;
@@ -23,6 +29,8 @@ import frc.robot.library.SwerveData;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  private static final AprilTagFieldLayout aprilTag = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+
   public static final class DriveConstants {
 
     //public static final String kCanBus = "CANivore";
@@ -58,7 +66,23 @@ public final class Constants {
     public static final boolean kFrontRightTurningEncoderReversed = false;
     public static final boolean kRearRightTurningEncoderReversed = false;
 
-    public static final List<Integer> kReefTags = Arrays.asList(6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22);
+    public static final Map<Integer, Pose2d> kRedReefTags = 
+      Map.of(
+        6, aprilTag.getTagPose(6).get().toPose2d().plus(new Transform2d(-.1429, -.0825, new Rotation2d())),
+        7, aprilTag.getTagPose(7).get().toPose2d().plus(new Transform2d(0, -.165, new Rotation2d())),
+        8, aprilTag.getTagPose(8).get().toPose2d().plus(new Transform2d(-.1429, .0825, new Rotation2d())),
+        9, aprilTag.getTagPose(9).get().toPose2d().plus(new Transform2d(-.1429, -.0825, new Rotation2d())),
+        10, aprilTag.getTagPose(10).get().toPose2d().plus(new Transform2d(0, -.165, new Rotation2d())),
+        11, aprilTag.getTagPose(11).get().toPose2d().plus(new Transform2d(-.1429, .0825, new Rotation2d())));
+    public static final Map<Integer, Pose2d> kBlueReefTags =
+      Map.of(
+        17, aprilTag.getTagPose(17).get().toPose2d().plus(new Transform2d(-.1429, .0825, new Rotation2d())),
+        18, aprilTag.getTagPose(18).get().toPose2d().plus(new Transform2d(0, -.165, new Rotation2d())),
+        19, aprilTag.getTagPose(19).get().toPose2d().plus(new Transform2d(-.1429, -.0825, new Rotation2d())),
+        20, aprilTag.getTagPose(20).get().toPose2d().plus(new Transform2d(-.1429, .0825, new Rotation2d())),
+        21, aprilTag.getTagPose(21).get().toPose2d().plus(new Transform2d(0, -.165, new Rotation2d())),
+        22, aprilTag.getTagPose(22).get().toPose2d().plus(new Transform2d(-.1429, -.0825, new Rotation2d()))); 
+
 
     // Distance between centers of right and left wheels on robot
     public static final double kTrackWidth = 0.65405;
@@ -143,6 +167,8 @@ public final class Constants {
 
     public static final int kUpDPad = 180;
     public static final int kDownDPad = 0;
+    public static final int kLeftDPad = 270;
+    public static final int kRightDPad = 90;
   }
 
   public static final class SwerveConstants {
@@ -199,6 +225,7 @@ public final class Constants {
 
   public static class CoralConstants {
     public static final int kMotorPort = 23;
+    public static final int kMotorHingePort = 30;
     public static final boolean kMotorInverted = false;
 
     public static final IdleMode kIdleMode = IdleMode.kBrake;
@@ -215,6 +242,7 @@ public final class Constants {
 
   public static class IntakeConstants {
     public static final int kMotorPort = 24;
+    public static final int kHingeMotorPort = 31;
 
     public static final boolean kIntakeMotorInverted = true;
     public static final IdleMode kIdleMode = IdleMode.kBrake;

@@ -15,10 +15,22 @@ public class CoralSubsystem extends SubsystemBase{
     public enum coralDir{kIn, kOUt, kOff};
 
     private final SparkMax m_coral = new SparkMax(CoralConstants.kMotorPort, MotorType.kBrushless);
+    private final SparkMax m_coralHinge = new SparkMax(CoralConstants.kMotorHingePort, MotorType.kBrushless);
 
     private final RelativeEncoder m_coralEncoder = m_coral.getEncoder();
+    private final RelativeEncoder m_coralHingeEncoder = m_coralHinge.getEncoder();
     public CoralSubsystem() {
         m_coral.configure(
+            new SparkMaxConfig().
+                inverted(CoralConstants.kMotorInverted).
+                idleMode(CoralConstants.kIdleMode).
+                openLoopRampRate(CoralConstants.kOpenLoopRampRate).
+                voltageCompensation(CoralConstants.maxVoltage).
+                secondaryCurrentLimit(CoralConstants.kCurrentLimit), 
+            ResetMode.kResetSafeParameters,
+            PersistMode.kNoPersistParameters);
+
+        m_coralHinge.configure(
             new SparkMaxConfig().
                 inverted(CoralConstants.kMotorInverted).
                 idleMode(CoralConstants.kIdleMode).
@@ -40,6 +52,7 @@ public class CoralSubsystem extends SubsystemBase{
      */
     public void resetEncoders() {
         m_coralEncoder.setPosition(0);
+        m_coralHingeEncoder.setPosition(0);
     }
 
     /** Sets the desired speed of the left and right intake motors.
@@ -86,6 +99,7 @@ public class CoralSubsystem extends SubsystemBase{
    */
     public void stopMotors() {
         m_coral.stopMotor();
+        m_coralHinge.stopMotor();
     }
     
     /** Calculates the average motor velocities.
@@ -97,6 +111,29 @@ public class CoralSubsystem extends SubsystemBase{
    */
     public double getIntakeVelocity() {
         return m_coralEncoder.getVelocity();
+    }
+
+    /**Gets the angle of the motor in radians
+     * 
+     * @return current motor angle (radians)
+     * @param None
+     * @implNote com.revrobotics.RelativeEncoder.getPosition()
+     * @implNote Math.PI
+     * 
+     */
+    public double getAngle() {
+        return m_coralHingeEncoder.getPosition() * Math.PI * 2;
+    }
+
+    /**Sets the speed of the motor
+     * 
+     * @return Void
+     * @param output the speed to set.  Should be between -1 and 1
+     * @implNote com.revrobotics.spark.SparkBase.set()
+     * 
+     */
+    public void setTargetHingeOutput(double output) {
+        m_coralHinge.set(output);
     }
 
     @Override

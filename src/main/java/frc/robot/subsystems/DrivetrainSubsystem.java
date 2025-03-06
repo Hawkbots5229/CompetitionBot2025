@@ -102,14 +102,6 @@ public class DrivetrainSubsystem extends SubsystemBase{
   
   }
 
-  public List <PhotonPipelineResult> getLastResult() {
-    return camera.getAllUnreadResults();
-  };
-
-  public boolean checkTargets() {
-    return result.hasTargets();
-  }
-
   /** Updates the robot odometry.
    * 
    * @return Void
@@ -142,41 +134,32 @@ public class DrivetrainSubsystem extends SubsystemBase{
     return m_odometry.getPoseMeters();
   }
 
-  public Pose3d getPose3d() {
+  public Pose2d getPose2d() {
     if (aprilTag.getTagPose(target.getFiducialId()).isPresent()){
-      return PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), aprilTag.getTagPose(target.getFiducialId()).get(), new Transform3d());
+      return PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), aprilTag.getTagPose(target.getFiducialId()).get(), new Transform3d()).toPose2d();
     } else {
       return null;
     }
   }
 
+
   public Boolean targetVisible() {
     var results = camera.getAllUnreadResults();
     if (!results.isEmpty()) {
       var result = results.get(results.size() - 1);
-      if (result.hasTargets()) {
-        for (var target : result.getTargets()) {
-          if (target.getFiducialId() == 7) {
-            return true;
-          }
-        }
-      }
+      if (result.)
       return false;
     } else {
       return false;
     }
   }
 
+  //calculates the difference in heading of the robot and april tag it's looking at
   public double getTargetYaw(List<Integer> tagID) {
     var results = camera.getAllUnreadResults();
     if (!results.isEmpty()) {
       var result = results.get(results.size() - 1);
-      for(int target : tagID) {
-        if (result.hasTargets() && result.getBestTarget().getFiducialId() == target) {
-          return result.getBestTarget().getYaw();
-        }
-      }
-      return 0;
+      return getPose().getRotation().getDegrees() - aprilTag.getTagPose(result.getBestTarget().getFiducialId()).get().toPose2d().getRotation().getDegrees();
     } else {
       return 0;
     }
