@@ -6,22 +6,26 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.CoralSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ClimberSetPosCommand extends InstantCommand {
-  private final ClimbSubsystem.climbPos pos;
+public class ElevatorCoralSetPosCommand extends InstantCommand {
+  private final ElevatorSubsystem.elevatorPos posElevator;
+  private final CoralSubsystem.coralPos posCoral;
 
-  public ClimberSetPosCommand(ClimbSubsystem.climbPos pos) {
+  public ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos posElevator, CoralSubsystem.coralPos posCoral) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.pos = pos;
+    this.posElevator = posElevator;
+    this.posCoral = posCoral;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.l_climbPos.setTargetPosition(pos);
+    RobotContainer.l_elevatorPos.setTargetPosition(posElevator);
+    RobotContainer.l_coralPos.setTargetPosition(posCoral);
   }
 }

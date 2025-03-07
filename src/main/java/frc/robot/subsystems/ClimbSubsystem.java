@@ -9,10 +9,11 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
-import frc.robot.Constants.ElevatorConstants;
 
 
 public class ClimbSubsystem extends SubsystemBase{
+
+    public enum climbPos{k0, k1};
 
     private final TalonFX m_climbMotor = new TalonFX(ClimbConstants.kMotorPort, ClimbConstants.kCanBus);
 

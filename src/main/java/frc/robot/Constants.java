@@ -208,10 +208,10 @@ public final class Constants {
     public static final boolean kLeftMoterInverted = true;
     public static final boolean kRightMotorInverted = false;
 
-    public static final double k0Lock = 0;
-    public static final double k1Lock = 81;
-    public static final double k2Lock = 121;
-    public static final double k3Lock = 230;
+    public static final double k0Lock = 0.0; // Down
+    public static final double k1Lock = 94.0; // 1st level
+    public static final double k2Lock = 0.0; // Intake
+    public static final double k3Lock = 233.0; // 2nd level
   }
 
   public static class ClimbConstants {
@@ -220,7 +220,7 @@ public final class Constants {
     public static final int kMotorPort = 22;
 
     public static final boolean kClimbMotorInverted = true;
-    public static final NeutralModeValue kIdleMode = NeutralModeValue.Coast; //TODO change back to Brake
+    public static final NeutralModeValue kIdleMode = NeutralModeValue.Coast; 
     public static final double maxVoltage = 12.0;
     public static final int kCurrentLimit = 40;
 
@@ -229,8 +229,11 @@ public final class Constants {
     public static final double kDPos = 0;
     public static final double kPosErrTolerance = 1;
 
-    public static final double climbMax_RadPS = Math.PI;
+    public static final double climbMax_RadPS = Math.PI/4;
     public static final double climbMax_RadPSSq = Math.pow(climbMax_RadPS,2);
+
+    public static final double k0Lock = 0;
+    public static final double k1Lock = 0;
   }
 
   public static class CoralConstants {
@@ -239,26 +242,31 @@ public final class Constants {
     public static final boolean kCoralMotorInverted = false;
     public static final boolean kCoralHingeMotorInverted = true;
 
-    public static final IdleMode kCoralIdleMode = IdleMode.kCoast; //TODO change back to kBrake
+    public static final IdleMode kCoralIdleMode = IdleMode.kBrake;
     public static final IdleMode kCoralHingeIdleMode = IdleMode.kBrake;
     public static final double maxVoltage = 12.0;
     public static final int kCoralCurrentLimit = 30;
     public static final int kCoralHingeCurrentLimit = 40;
     public static final double kOpenLoopRampRate = 0;
-    public static final double kMaxOutput = 1.0;
+    public static final double kMaxOutput = 0.5;
         
     public static final double kGearBoxRatio = 1/7.0;
     public static final double kEncoderRpmToWheelRpm = kGearBoxRatio;
 
     public static final double kMaxVel = 1;
 
-    public static final double kPPos = 0.55;
-    public static final double kIPos = 0.01;
+    public static final double kPPos = 0.002;
+    public static final double kIPos = 0.001;
     public static final double kDPos = 0;
     public static final double kPosErrTolerance = 1;
 
-    public static final double max_RadPS = Math.PI;
-    public static final double max_RadPSSq = Math.pow(max_RadPS,2);
+    public static final double max_RadPS = Math.PI/2.0;
+    public static final double max_RadPSSq = Math.pow(max_RadPS,4);
+  
+    public static final double k0Lock = 0.0; //Down
+    public static final double k1Lock = 116.0; // 1st level
+    public static final double k2Lock = 180.0; // Intake
+    public static final double k3Lock = 150.0; // Second level
   }
 
   public static class IntakeConstants {
@@ -267,26 +275,30 @@ public final class Constants {
 
     public static final boolean kIntakeMotorInverted = true;
     public static final boolean kIntakeHingeMotorInverted = true;
-    public static final IdleMode kIntakeIdleMode = IdleMode.kCoast; //TODO change back to kBrake
+    public static final IdleMode kIntakeIdleMode = IdleMode.kBrake;
     public static final IdleMode kIntakeHingeIdleMode = IdleMode.kBrake;
     public static final double maxVoltage = 12.0;
     public static final int kIntakeCurrentLimit = 30;
     public static final int kIntakeHingeCurrentLimit = 40;
     public static final double kOpenLoopRampRate = 0;
-    public static final double kMaxOutput = 1.0;
+    public static final double kMaxOutput = 0.5;
         
     public static final double kGearBoxRatio = 1/7.0;
     public static final double kEncoderRpmToWheelRpm = kGearBoxRatio;
 
     public static final double kMaxVel = 1;
 
-    public static final double kPPos = 0.55;
+    public static final double kPPos = 0.04;
     public static final double kIPos = 0.01;
-    public static final double kDPos = 0;
+    public static final double kDPos = 0.0;
     public static final double kPosErrTolerance = 1;
 
-    public static final double max_RadPS = Math.PI;
-    public static final double max_RadPSSq = Math.pow(max_RadPS,2);
+    public static final double max_RadPS = Math.PI/0.25;
+    public static final double max_RadPSSq = Math.pow(max_RadPS,4);
+
+    public static final double k0Lock = 0.0;
+    public static final double k1Lock = 128.0;
+    public static final double k2Lock = 200.0;
   }
 
 }

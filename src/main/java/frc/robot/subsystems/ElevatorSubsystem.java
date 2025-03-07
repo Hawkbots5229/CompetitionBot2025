@@ -114,7 +114,5 @@ public class ElevatorSubsystem extends SubsystemBase{
     public void periodic() {
         //this method will be called once per scheduler run
         SmartDashboard.putNumber("Elevator Height", getPosition());
-        SmartDashboard.putNumber("Elevator Left Height", m_leftEncoder.getPosition());
-        SmartDashboard.putNumber("Elevator Right Height", m_rightEncoder.getPosition());
-    }
+  }
 }

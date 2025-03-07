@@ -17,6 +17,7 @@ import frc.robot.Constants.IntakeConstants;
 
 public class CoralSubsystem extends SubsystemBase{
     public enum coralDir{kIn, kOUt, kOff};
+    public enum coralPos{k0, k1, k2, k3};
 
     private final SparkMax m_coral = new SparkMax(CoralConstants.kMotorPort, MotorType.kBrushless);
     private final SparkMax m_coralHinge = new SparkMax(CoralConstants.kMotorHingePort, MotorType.kBrushless);
@@ -116,6 +117,9 @@ public class CoralSubsystem extends SubsystemBase{
    */
     public void stopMotors() {
         m_coral.stopMotor();
+    }
+
+    public void stopHingeMotors() {
         m_coralHinge.stopMotor();
     }
     

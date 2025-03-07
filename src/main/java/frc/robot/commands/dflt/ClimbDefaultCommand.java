@@ -5,19 +5,19 @@
 package frc.robot.commands.dflt;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.CoralConstants;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CoralDefaultCommand extends Command {
+public class ClimbDefaultCommand extends Command {
   /** Creates a new CoralDefaultCommand. */
-  private final CoralSubsystem s_robotCoral;
+  private final ClimbSubsystem s_robotClimb;
 
-  public CoralDefaultCommand(CoralSubsystem s_robotCoral) {
+  public ClimbDefaultCommand(ClimbSubsystem s_robotClimb) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(s_robotCoral);
-    this.s_robotCoral = s_robotCoral;
+    addRequirements(s_robotClimb);
+    this.s_robotClimb = s_robotClimb;
   }
 
   // Called when the command is initially scheduled.
@@ -27,14 +27,13 @@ public class CoralDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if((s_robotCoral.getAngle() >= CoralConstants.k3Lock && RobotContainer.l_coralPos.getTargetEnum() == CoralSubsystem.coralPos.k3) ||
-    (s_robotCoral.getAngle() <= CoralConstants.k0Lock && RobotContainer.l_coralPos.getTargetEnum() == CoralSubsystem.coralPos.k0)) {
-      s_robotCoral.stopHingeMotors();
+    if((s_robotClimb.getAngle() >= ClimbConstants.k1Lock && RobotContainer.l_climbPos.getTargetEnum() == ClimbSubsystem.climbPos.k1) ||
+    (s_robotClimb.getAngle() <= ClimbConstants.k0Lock && RobotContainer.l_climbPos.getTargetEnum() == ClimbSubsystem.climbPos.k0)) {
+      s_robotClimb.stopMotor();
     }
     else {
-      s_robotCoral.setPosition(RobotContainer.l_coralPos.getTargetPosition());
+      s_robotClimb.setPosition(RobotContainer.l_coralPos.getTargetPosition());
     }
-    s_robotCoral.stopMotors();
   }
 
   // Called once the command ends or is interrupted.
