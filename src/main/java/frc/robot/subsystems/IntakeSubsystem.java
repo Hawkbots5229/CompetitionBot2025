@@ -7,9 +7,12 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase{
@@ -21,17 +24,39 @@ public class IntakeSubsystem extends SubsystemBase{
     private final RelativeEncoder m_intakeEncoder = m_intake.getEncoder();
     private final RelativeEncoder m_intakeHingeEncoder = m_intakeHinge.getEncoder();
 
+    // Using a TrapezoidProfile PIDController to allow for smooth climbing
+    private final ProfiledPIDController m_intakePIDController =
+        new ProfiledPIDController(
+            IntakeConstants.kPPos,
+            IntakeConstants.kIPos,
+            IntakeConstants.kDPos,
+            new TrapezoidProfile.Constraints(
+                IntakeConstants.max_RadPS * IntakeConstants.maxVoltage,
+                IntakeConstants.max_RadPSSq * IntakeConstants.maxVoltage));
+
     public IntakeSubsystem() {
         m_intake.configure(
             new SparkMaxConfig().
                 inverted(IntakeConstants.kIntakeMotorInverted).
-                idleMode(IntakeConstants.kIdleMode).
-                secondaryCurrentLimit(IntakeConstants.kCurrentLimit).
+                idleMode(IntakeConstants.kIntakeIdleMode).
+                secondaryCurrentLimit(IntakeConstants.kIntakeCurrentLimit).
+                openLoopRampRate(IntakeConstants.kOpenLoopRampRate).
+                voltageCompensation(IntakeConstants.maxVoltage)
+            , ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+
+
+        m_intakeHinge.configure(
+            new SparkMaxConfig().
+                inverted(IntakeConstants.kIntakeHingeMotorInverted).
+                idleMode(IntakeConstants.kIntakeHingeIdleMode).
+                secondaryCurrentLimit(IntakeConstants.kIntakeHingeCurrentLimit).
                 openLoopRampRate(IntakeConstants.kOpenLoopRampRate).
                 voltageCompensation(IntakeConstants.maxVoltage)
             , ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
         
         resetEncoders();
+
+        m_intakePIDController.setTolerance(ClimbConstants.kPosErrTolerance);
     }
 
     public void resetEncoders() {
@@ -83,9 +108,24 @@ public class IntakeSubsystem extends SubsystemBase{
         return m_intakeEncoder.getVelocity();
     }
 
+    /**Sets the target angle of the climber
+     * Uses PID control to determine the motor speed required to reach that angle
+     * 
+     * @return None
+     * @param tarAngle The target anggle
+     * @implNote edu.wpi.first.math.controller.ProfiledPIDController()
+     * @implNote getPosition()
+     * 
+     */
+    public void setPosition(double tarAngle) {
+        double output = m_intakePIDController.calculate(getAngle(), tarAngle);
+        m_intakeHinge.set(output);
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         SmartDashboard.putNumber("Intake Velocity", getIntakeVelocity());
+        SmartDashboard.putNumber("Intake Angle", getAngle());
   }
 }

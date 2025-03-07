@@ -7,9 +7,13 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.CoralConstants;
+import frc.robot.Constants.IntakeConstants;
 
 public class CoralSubsystem extends SubsystemBase{
     public enum coralDir{kIn, kOUt, kOff};
@@ -19,28 +23,41 @@ public class CoralSubsystem extends SubsystemBase{
 
     private final RelativeEncoder m_coralEncoder = m_coral.getEncoder();
     private final RelativeEncoder m_coralHingeEncoder = m_coralHinge.getEncoder();
+
+        // Using a TrapezoidProfile PIDController to allow for smooth climbing
+    private final ProfiledPIDController m_coralPIDController =
+        new ProfiledPIDController(
+            IntakeConstants.kPPos,
+            IntakeConstants.kIPos,
+            IntakeConstants.kDPos,
+            new TrapezoidProfile.Constraints(
+                IntakeConstants.max_RadPS * IntakeConstants.maxVoltage,
+                IntakeConstants.max_RadPSSq * IntakeConstants.maxVoltage));
+
     public CoralSubsystem() {
         m_coral.configure(
             new SparkMaxConfig().
-                inverted(CoralConstants.kMotorInverted).
-                idleMode(CoralConstants.kIdleMode).
+                inverted(CoralConstants.kCoralMotorInverted).
+                idleMode(CoralConstants.kCoralIdleMode).
                 openLoopRampRate(CoralConstants.kOpenLoopRampRate).
                 voltageCompensation(CoralConstants.maxVoltage).
-                secondaryCurrentLimit(CoralConstants.kCurrentLimit), 
+                secondaryCurrentLimit(CoralConstants.kCoralCurrentLimit), 
             ResetMode.kResetSafeParameters,
             PersistMode.kNoPersistParameters);
 
         m_coralHinge.configure(
             new SparkMaxConfig().
-                inverted(CoralConstants.kMotorInverted).
-                idleMode(CoralConstants.kIdleMode).
+                inverted(CoralConstants.kCoralHingeMotorInverted).
+                idleMode(CoralConstants.kCoralHingeIdleMode).
                 openLoopRampRate(CoralConstants.kOpenLoopRampRate).
                 voltageCompensation(CoralConstants.maxVoltage).
-                secondaryCurrentLimit(CoralConstants.kCurrentLimit), 
+                secondaryCurrentLimit(CoralConstants.kCoralHingeCurrentLimit), 
             ResetMode.kResetSafeParameters,
             PersistMode.kNoPersistParameters);
 
         resetEncoders();
+        
+        m_coralPIDController.setTolerance(ClimbConstants.kPosErrTolerance);
     }
 
     /**Sets the encoder positions to 0
@@ -136,9 +153,24 @@ public class CoralSubsystem extends SubsystemBase{
         m_coralHinge.set(output);
     }
 
+    /**Sets the target angle of the climber
+     * Uses PID control to determine the motor speed required to reach that angle
+     * 
+     * @return None
+     * @param tarAngle The target anggle
+     * @implNote edu.wpi.first.math.controller.ProfiledPIDController()
+     * @implNote getPosition()
+     * 
+     */
+    public void setPosition(double tarAngle) {
+        double output = m_coralPIDController.calculate(getAngle(), tarAngle);
+        m_coralHinge.set(output);
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         SmartDashboard.putNumber("Coral Shooter Velocity", getIntakeVelocity());
+        SmartDashboard.putNumber("Coral Angle", getAngle());
   }
 }

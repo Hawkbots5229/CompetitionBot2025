@@ -29,10 +29,13 @@ public class CoralSetSpdCommand extends Command {
     switch (direction) {
       case kIn:
         s_robotCoral.wheelsIn();
+        break;
       case kOUt:
         s_robotCoral.wheelsOut();
+        break;
       case kOff:
         s_robotCoral.stopMotors();
+        break;
       default:
         throw new AssertionError("Illegal value: " + direction);
     }

@@ -56,9 +56,10 @@ public class AlignRobotCommand extends Command {
       -m_rotLimiter.calculate(MathUtil.applyDeadband(RobotContainer.m_driverController.getRightX(), DriveConstants.stickDeadband))
         * DriveConstants.maxAngularSpeed;
 
-    if (drive.targetVisible()) {
-      rot = -1 * drive.getTargetYaw(DriveConstants.kReefTags) * DriveConstants.maxAngularSpeed;
-    }
+    //TODO    
+    //if (drive.targetVisible()) {
+    //  rot = -1 * drive.getTargetYaw(DriveConstants.kReefTags) * DriveConstants.maxAngularSpeed;
+    //}
 
     drive.drive(xSpeed * DriveConstants.speedScale, ySpeed * DriveConstants.speedScale, rot * DriveConstants.rotationScale, false, true);
   }
@@ -72,6 +73,8 @@ public class AlignRobotCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return drive.getTargetYaw(DriveConstants.kReefTags) == 0;
+    //TODO
+    //return drive.getTargetYaw(DriveConstants.kReefTags) == 0;
+    return true;
   }
 }

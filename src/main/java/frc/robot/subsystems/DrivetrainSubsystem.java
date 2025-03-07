@@ -54,7 +54,7 @@ public class DrivetrainSubsystem extends SubsystemBase{
   private final PhotonCamera camera = new PhotonCamera("Arducam1");
   private final PhotonPipelineResult result = new PhotonPipelineResult();
   private final PhotonTrackedTarget target = new PhotonTrackedTarget();
-  private final AprilTagFieldLayout aprilTag = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+  private final AprilTagFieldLayout aprilTag = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
   
 
   // Odometry class for tracking robot pose
@@ -146,8 +146,9 @@ public class DrivetrainSubsystem extends SubsystemBase{
   public Boolean targetVisible() {
     var results = camera.getAllUnreadResults();
     if (!results.isEmpty()) {
-      var result = results.get(results.size() - 1);
-      if (result.)
+      //var result = results.get(results.size() - 1);
+      // TODO
+      //if (result.)
       return false;
     } else {
       return false;

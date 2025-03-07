@@ -79,7 +79,7 @@ public class ElevatorSubsystem extends SubsystemBase{
      * 
      */
     public double getPosition() {
-        return m_leftEncoder.getPosition() * ElevatorConstants.kGearRatio;
+        return m_leftEncoder.getPosition();
     }
 
     /**Sets the target height of the elevator
@@ -113,6 +113,8 @@ public class ElevatorSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         //this method will be called once per scheduler run
-        SmartDashboard.putNumber("Arm Height", getPosition());
+        SmartDashboard.putNumber("Elevator Height", getPosition());
+        SmartDashboard.putNumber("Elevator Left Height", m_leftEncoder.getPosition());
+        SmartDashboard.putNumber("Elevator Right Height", m_rightEncoder.getPosition());
     }
 }

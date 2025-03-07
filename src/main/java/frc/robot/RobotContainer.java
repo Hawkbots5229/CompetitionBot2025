@@ -28,6 +28,7 @@ import frc.robot.subsystems.ElevatorSubsystem.elevatorPos;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -66,7 +67,7 @@ public class RobotContainer {
     configureBindings();
 
     //create camera servers
-    CameraServer.startAutomaticCapture("Elevator Camera", 0);
+    //CameraServer.startAutomaticCapture("Elevator Camera", 0);
 
     sc_autonSelect = AutoBuilder.buildAutoChooser();
 
@@ -95,25 +96,26 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    new JoystickButton(m_mechController, OIConstants.kUpDPad)
+    
+    new POVButton(m_mechController, OIConstants.kUpDPad)
       .onTrue(new IntakeSetSpdCommand(m_robotIntake, IntakeSubsystem.intakeDir.kOut))
       .onFalse(new IntakeSetSpdCommand(m_robotIntake, IntakeSubsystem.intakeDir.kOff));
-    new JoystickButton(m_mechController, OIConstants.kDownDPad)
+    new POVButton(m_mechController, OIConstants.kDownDPad)
       .onTrue(new IntakeSetSpdCommand(m_robotIntake, IntakeSubsystem.intakeDir.kIn))
       .onFalse(new IntakeSetSpdCommand(m_robotIntake, IntakeSubsystem.intakeDir.kOff));
 
-    new JoystickButton(m_mechController, OIConstants.kLeftDPad)
-      .onTrue(new CoralSetAngleCommand(m_robotCoral, 1))
+    new POVButton(m_mechController, OIConstants.kLeftDPad)
+      .onTrue(new CoralSetAngleCommand(m_robotCoral, 0.2))
       .onFalse(new CoralSetAngleCommand(m_robotCoral, 0));
-    new JoystickButton(m_mechController, OIConstants.kLeftDPad)
-      .onTrue(new CoralSetAngleCommand(m_robotCoral, -1))
+    new POVButton(m_mechController, OIConstants.kRightDPad)
+      .onTrue(new CoralSetAngleCommand(m_robotCoral, -0.2))
       .onFalse(new CoralSetAngleCommand(m_robotCoral, 0));
 
     new JoystickButton(m_mechController, Button.kRightStick.value)
-      .onTrue(new IntakeSetAngleCommand(m_robotIntake, 1))
+      .onTrue(new IntakeSetAngleCommand(m_robotIntake, 0.2))
       .onFalse(new IntakeSetAngleCommand(m_robotIntake, 0));
     new JoystickButton(m_mechController, Button.kLeftStick.value)
-      .onTrue(new IntakeSetAngleCommand(m_robotIntake, -1))
+      .onTrue(new IntakeSetAngleCommand(m_robotIntake, -0.2))
       .onFalse(new IntakeSetAngleCommand(m_robotIntake, 0));
     
 
@@ -139,6 +141,7 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kRightBumper.value)
       .onTrue(new ClimberSetPosCommand(m_robotClimb, -.5))
       .onFalse(new ClimberSetPosCommand(m_robotClimb, 0));
+      
   }
 
   /**

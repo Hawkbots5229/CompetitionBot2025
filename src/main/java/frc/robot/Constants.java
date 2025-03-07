@@ -29,7 +29,7 @@ import frc.robot.library.SwerveData;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  private static final AprilTagFieldLayout aprilTag = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+  private static final AprilTagFieldLayout aprilTag = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
 
   public static final class DriveConstants {
 
@@ -42,9 +42,9 @@ public final class Constants {
     public static final int kRearRightDriveMotorPort = 41;
 
     public static final boolean kFrontLeftDriveMotorReversed = false;
-    public static final boolean kRearLeftDriveMotorReversed = false;
+    public static final boolean kRearLeftDriveMotorReversed = true;
     public static final boolean kFrontRightDriveMotorReversed = false;
-    public static final boolean kRearRightDriveMotorReversed = false;
+    public static final boolean kRearRightDriveMotorReversed = true;
 
     public static final int kFrontLeftTurningMotorPort = 32;
     public static final int kRearLeftTurningMotorPort = 30;
@@ -56,10 +56,10 @@ public final class Constants {
     public static final boolean kFrontRightTurningMotorReversed = true;
     public static final boolean kRearRightTurningMotorReversed = true;
 
-    public static final int kFrontLeftTurningEncoderPorts = 52;
-    public static final int kRearLeftTurningEncoderPorts = 50;
-    public static final int kFrontRightTurningEncoderPorts = 53;
-    public static final int kRearRightTurningEncoderPorts = 51;
+    public static final int kFrontLeftTurningEncoderPorts = 53;
+    public static final int kRearLeftTurningEncoderPorts = 51;
+    public static final int kFrontRightTurningEncoderPorts = 52;
+    public static final int kRearRightTurningEncoderPorts = 50;
 
     public static final boolean kFrontLeftTurningEncoderReversed = false;
     public static final boolean kRearLeftTurningEncoderReversed = false;
@@ -127,7 +127,7 @@ public final class Constants {
     kFrontLeftTurningMotorReversed, 
     kFrontLeftTurningEncoderPorts,
     kFrontLeftTurningEncoderReversed,
-    -0.862, //-0.398 
+    -0.923,
     kuseAbsEnc);
 
     public static final SwerveData SDFrontRight = new SwerveData("FR", 
@@ -137,7 +137,7 @@ public final class Constants {
     kFrontRightTurningMotorReversed, 
     kFrontRightTurningEncoderPorts,
     kFrontRightTurningEncoderReversed,
-    -0.024, //-0.970
+    -0.240,
     kuseAbsEnc);
 
   public static final SwerveData SDRearLeft = new SwerveData("RL", 
@@ -147,7 +147,7 @@ public final class Constants {
     kRearLeftTurningMotorReversed, 
     kRearLeftTurningEncoderPorts,
     kRearLeftTurningEncoderReversed,
-    -0.424, //-0.370
+    -0.653,
     kuseAbsEnc);
 
   public static final SwerveData SDRearRight = new SwerveData("RR", 
@@ -157,7 +157,7 @@ public final class Constants {
     kRearRightTurningMotorReversed, 
     kRearRightTurningEncoderPorts, 
     kRearRightTurningEncoderReversed,
-    -0.544, //-0.895
+    -0.106,
     kuseAbsEnc);
   }
 
@@ -196,41 +196,54 @@ public final class Constants {
     public static final double kOpenLoopRampRate = 10;
     public static final IdleMode kIdleMode = IdleMode.kBrake;
 
-    public static final double kPPos = 0.5;
+    public static final double kPPos = 0.2;
     public static final double kIPos= 0.01;
     public static final double kDPos = 0;
     public static final double kPosErrTolerance = 1;
 
-    public static final double kMaxVel = Math.PI/4.0; //RadPerSec
-    public static final double kMaxAcc = Math.pow(kMaxVel,2);; //RadPerSecSqrd
+    public static final double kMaxVel = Math.PI/0.3; //RadPerSec
+    public static final double kMaxAcc = Math.pow(kMaxVel,4);; //RadPerSecSqrd
     public static final double kGearRatio = 4.45 * Math.PI;
     
-    public static final boolean kLeftMoterInverted = false;
-    public static final boolean kRightMotorInverted = true;
+    public static final boolean kLeftMoterInverted = true;
+    public static final boolean kRightMotorInverted = false;
 
     public static final double k0Lock = 0;
     public static final double k1Lock = 81;
     public static final double k2Lock = 121;
-    public static final double k3Lock = 183;
+    public static final double k3Lock = 230;
   }
 
   public static class ClimbConstants {
+
+    public static final String kCanBus = "rio";
     public static final int kMotorPort = 22;
 
-    public static final boolean kClimbMotorInverted = false;
-    public static final IdleMode kIdleMode = IdleMode.kBrake;
+    public static final boolean kClimbMotorInverted = true;
+    public static final NeutralModeValue kIdleMode = NeutralModeValue.Coast; //TODO change back to Brake
     public static final double maxVoltage = 12.0;
     public static final int kCurrentLimit = 40;
+
+    public static final double kPPos = 0.55;
+    public static final double kIPos = 0.01;
+    public static final double kDPos = 0;
+    public static final double kPosErrTolerance = 1;
+
+    public static final double climbMax_RadPS = Math.PI;
+    public static final double climbMax_RadPSSq = Math.pow(climbMax_RadPS,2);
   }
 
   public static class CoralConstants {
     public static final int kMotorPort = 23;
     public static final int kMotorHingePort = 30;
-    public static final boolean kMotorInverted = false;
+    public static final boolean kCoralMotorInverted = false;
+    public static final boolean kCoralHingeMotorInverted = true;
 
-    public static final IdleMode kIdleMode = IdleMode.kBrake;
+    public static final IdleMode kCoralIdleMode = IdleMode.kCoast; //TODO change back to kBrake
+    public static final IdleMode kCoralHingeIdleMode = IdleMode.kBrake;
     public static final double maxVoltage = 12.0;
-    public static final int kCurrentLimit = 30;
+    public static final int kCoralCurrentLimit = 30;
+    public static final int kCoralHingeCurrentLimit = 40;
     public static final double kOpenLoopRampRate = 0;
     public static final double kMaxOutput = 1.0;
         
@@ -238,6 +251,14 @@ public final class Constants {
     public static final double kEncoderRpmToWheelRpm = kGearBoxRatio;
 
     public static final double kMaxVel = 1;
+
+    public static final double kPPos = 0.55;
+    public static final double kIPos = 0.01;
+    public static final double kDPos = 0;
+    public static final double kPosErrTolerance = 1;
+
+    public static final double max_RadPS = Math.PI;
+    public static final double max_RadPSSq = Math.pow(max_RadPS,2);
   }
 
   public static class IntakeConstants {
@@ -245,9 +266,12 @@ public final class Constants {
     public static final int kHingeMotorPort = 31;
 
     public static final boolean kIntakeMotorInverted = true;
-    public static final IdleMode kIdleMode = IdleMode.kBrake;
+    public static final boolean kIntakeHingeMotorInverted = true;
+    public static final IdleMode kIntakeIdleMode = IdleMode.kCoast; //TODO change back to kBrake
+    public static final IdleMode kIntakeHingeIdleMode = IdleMode.kBrake;
     public static final double maxVoltage = 12.0;
-    public static final int kCurrentLimit = 30;
+    public static final int kIntakeCurrentLimit = 30;
+    public static final int kIntakeHingeCurrentLimit = 40;
     public static final double kOpenLoopRampRate = 0;
     public static final double kMaxOutput = 1.0;
         
@@ -255,10 +279,14 @@ public final class Constants {
     public static final double kEncoderRpmToWheelRpm = kGearBoxRatio;
 
     public static final double kMaxVel = 1;
+
+    public static final double kPPos = 0.55;
+    public static final double kIPos = 0.01;
+    public static final double kDPos = 0;
+    public static final double kPosErrTolerance = 1;
+
+    public static final double max_RadPS = Math.PI;
+    public static final double max_RadPSSq = Math.pow(max_RadPS,2);
   }
 
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-    
-  }
 }

@@ -30,10 +30,13 @@ public class IntakeSetSpdCommand extends Command {
     switch (direction) {
       case kIn:
         s_robotIntake.wheelsIn();
+        break;
       case kOut:
         s_robotIntake.wheelsOut();
+        break;
       case kOff:
         s_robotIntake.stopMotors();
+        break;
       default:
         throw new AssertionError("Illegal value: " + direction);
     }

@@ -23,18 +23,19 @@ public class ElevatorDefaultCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if((s_robotElevator.getPosition() >= ElevatorConstants.k3Lock && RobotContainer.l_elevatorPos.getTargetEnum() == ElevatorSubsystem.elevatorPos.k3) ||
-       (s_robotElevator.getPosition() <= ElevatorConstants.k0Lock && RobotContainer.l_elevatorPos.getTargetEnum() == ElevatorSubsystem.elevatorPos.k0)) {
-        s_robotElevator.stopMotors();
-    }
-    else {
-      s_robotElevator.setPosition(RobotContainer.l_elevatorPos.getTargetPosition());
-    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if((s_robotElevator.getPosition() >= ElevatorConstants.k3Lock && RobotContainer.l_elevatorPos.getTargetEnum() == ElevatorSubsystem.elevatorPos.k3) ||
+    (s_robotElevator.getPosition() <= ElevatorConstants.k0Lock && RobotContainer.l_elevatorPos.getTargetEnum() == ElevatorSubsystem.elevatorPos.k0)) {
+      s_robotElevator.stopMotors();
+    }
+    else {
+      s_robotElevator.setPosition(RobotContainer.l_elevatorPos.getTargetPosition());
+    }
 
   }
 
