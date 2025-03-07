@@ -25,7 +25,7 @@ public class IntakeSetAngleCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_robotIntake.setTargetHingeOutput(speed);
+    //s_robotIntake.setTargetHingeOutput(speed);
   }
 
   // Called once the command ends or is interrupted.

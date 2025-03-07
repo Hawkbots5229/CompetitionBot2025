@@ -3,20 +3,20 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.library;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakePivotSubsystem;
 import frc.robot.Constants.IntakeConstants;
 
 /** Add your docs here. */
 public class IntakeController {
 
     private double targetPosition;
-    private IntakeSubsystem.intakePos targetPositionEnum;
+    private IntakePivotSubsystem.intakePos targetPositionEnum;
 
-    public IntakeController(IntakeSubsystem.intakePos pos) {
+    public IntakeController(IntakePivotSubsystem.intakePos pos) {
         this.targetPosition = updTargetPosition(pos);
     }
 
-    private double updTargetPosition(IntakeSubsystem.intakePos pos) {
+    private double updTargetPosition(IntakePivotSubsystem.intakePos pos) {
         this.targetPositionEnum = pos;
         switch(pos) {
             case k0: 
@@ -30,7 +30,7 @@ public class IntakeController {
         }
     }
 
-    public void setTargetPosition(IntakeSubsystem.intakePos pos) {
+    public void setTargetPosition(IntakePivotSubsystem.intakePos pos) {
         this.targetPosition = updTargetPosition(pos);
     }
 
@@ -38,7 +38,7 @@ public class IntakeController {
         return this.targetPosition;
     }
 
-    public IntakeSubsystem.intakePos getTargetEnum() {
+    public IntakePivotSubsystem.intakePos getTargetEnum() {
         return targetPositionEnum;
     }
 

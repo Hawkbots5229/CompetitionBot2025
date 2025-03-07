@@ -27,13 +27,6 @@ public class CoralDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if((s_robotCoral.getAngle() >= CoralConstants.k3Lock && RobotContainer.l_coralPos.getTargetEnum() == CoralSubsystem.coralPos.k3) ||
-    (s_robotCoral.getAngle() <= CoralConstants.k0Lock && RobotContainer.l_coralPos.getTargetEnum() == CoralSubsystem.coralPos.k0)) {
-      s_robotCoral.stopHingeMotors();
-    }
-    else {
-      s_robotCoral.setPosition(RobotContainer.l_coralPos.getTargetPosition());
-    }
     s_robotCoral.stopMotors();
   }
 

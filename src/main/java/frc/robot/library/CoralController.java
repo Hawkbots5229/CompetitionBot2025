@@ -4,19 +4,19 @@
 
 package frc.robot.library;
 import frc.robot.Constants.CoralConstants;
-import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.CoralPivotSubsystem;
 
 /** Add your docs here. */
 public class CoralController {
 
     private double targetPosition;
-    private CoralSubsystem.coralPos targetPositionEnum;
+    private CoralPivotSubsystem.coralPos targetPositionEnum;
 
-    public CoralController(CoralSubsystem.coralPos pos) {
+    public CoralController(CoralPivotSubsystem.coralPos pos) {
         this.targetPosition = updTargetPosition(pos);
     }
 
-    private double updTargetPosition(CoralSubsystem.coralPos pos) {
+    private double updTargetPosition(CoralPivotSubsystem.coralPos pos) {
         this.targetPositionEnum = pos;
         switch(pos) {
             case k0: 
@@ -32,7 +32,7 @@ public class CoralController {
         }
     }
 
-    public void setTargetPosition(CoralSubsystem.coralPos pos) {
+    public void setTargetPosition(CoralPivotSubsystem.coralPos pos) {
         this.targetPosition = updTargetPosition(pos);
     }
 
@@ -40,7 +40,7 @@ public class CoralController {
         return this.targetPosition;
     }
 
-    public CoralSubsystem.coralPos getTargetEnum() {
+    public CoralPivotSubsystem.coralPos getTargetEnum() {
         return targetPositionEnum;
     }
 

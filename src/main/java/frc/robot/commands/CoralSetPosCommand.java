@@ -6,15 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.CoralPivotSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CoralSetPosCommand extends InstantCommand {
-  private final CoralSubsystem.coralPos pos;
+  private final CoralPivotSubsystem.coralPos pos;
   
-  public CoralSetPosCommand(CoralSubsystem.coralPos pos) {
+  public CoralSetPosCommand(CoralPivotSubsystem.coralPos pos) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.pos = pos;
    

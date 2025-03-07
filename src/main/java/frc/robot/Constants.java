@@ -255,8 +255,8 @@ public final class Constants {
 
     public static final double kMaxVel = 1;
 
-    public static final double kPPos = 0.002;
-    public static final double kIPos = 0.001;
+    public static final double kPPos = 0.001;
+    public static final double kIPos = 0.0005;
     public static final double kDPos = 0;
     public static final double kPosErrTolerance = 1;
 
@@ -264,9 +264,9 @@ public final class Constants {
     public static final double max_RadPSSq = Math.pow(max_RadPS,4);
   
     public static final double k0Lock = 0.0; //Down
-    public static final double k1Lock = 116.0; // 1st level
+    public static final double k1Lock = 50.0; // 1st level
     public static final double k2Lock = 180.0; // Intake
-    public static final double k3Lock = 150.0; // Second level
+    public static final double k3Lock = 70.0; // Second level
   }
 
   public static class IntakeConstants {
@@ -294,7 +294,7 @@ public final class Constants {
     public static final double kPosErrTolerance = 1;
 
     public static final double max_RadPS = Math.PI/0.25;
-    public static final double max_RadPSSq = Math.pow(max_RadPS,4);
+    public static final double max_RadPSSq = Math.pow(max_RadPS,2);
 
     public static final double k0Lock = 0.0;
     public static final double k1Lock = 128.0;
