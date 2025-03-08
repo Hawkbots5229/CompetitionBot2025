@@ -58,8 +58,11 @@ public class DriveTrainDefaultCommand extends Command {
     var rot =
       -m_rotLimiter.calculate(MathUtil.applyDeadband(RobotContainer.m_driverController.getRightX(), DriveConstants.stickDeadband))
         * DriveConstants.maxAngularSpeed;
-            
-    RobotContainer.m_robotDrive.drive(xSpeed * DriveConstants.speedScale, ySpeed * DriveConstants.speedScale, rot*DriveConstants.rotationScale,RobotContainer.m_robotDrive.isFieldRelative,true);
+
+    double speedScale = Math.max(Math.min(RobotContainer.m_driverController.getLeftTriggerAxis(), DriveConstants.speedScaleMax), DriveConstants.speedScaleMin);
+    double rotationScale = Math.max(Math.min(RobotContainer.m_driverController.getRightTriggerAxis(), DriveConstants.rotationScaleMin), DriveConstants.rotationScaleMax);
+        
+    RobotContainer.m_robotDrive.drive(xSpeed * speedScale, ySpeed * speedScale, rot*rotationScale,RobotContainer.m_robotDrive.isFieldRelative,true);
   }
 
   // Called once the command ends or is interrupted.

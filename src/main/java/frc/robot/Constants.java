@@ -106,10 +106,15 @@ public final class Constants {
     public static final double rotKd = 0.0;
     public static final double rotToleranceDeg = 1;
     public static final double rotToleranceVel = 10; // Deg/sec
-    public static final double rotMaxOutput  = 0.5;
+    public static final double rotMaxOutput = 0.5;
     public static final double stickDeadband = 0.1;
-    public static final double speedScale = 0.60;
-    public static final double rotationScale = 0.25;
+
+    public static final double speedScaleMin = 0.80;
+    public static final double speedScaleMax = 0.20;
+
+    public static final double rotationScaleMin = 0.1;
+    public static final double rotationScaleMax = 0.25;
+
     public static final double MetersPerInch = 1/39.37008;
     public static final int kCurrentLimit = 40;
     public static final double kOpenLoopRampRate = 0;
@@ -187,6 +192,30 @@ public final class Constants {
     public static final double driveRawVelocityToMPS = 4990.68;
   }
 
+
+  public static class ClimbConstants {
+
+    public static final String kCanBus = "rio";
+    public static final int kMotorPort = 22;
+
+    public static final boolean kClimbMotorInverted = true;
+    public static final NeutralModeValue kIdleMode = NeutralModeValue.Coast; 
+    public static final double maxVoltage = 12.0;
+    public static final int kCurrentLimit = 40;
+
+    public static final double kPPos = 0.55;
+    public static final double kIPos = 0.01;
+    public static final double kDPos = 0;
+    public static final double kPosErrTolerance = 1;
+
+    public static final double climbMax_RadPS = Math.PI/4;
+    public static final double climbMax_RadPSSq = Math.pow(climbMax_RadPS,2);
+
+    public static final double k0Lock = 0;
+    public static final double k1Lock = 0;
+  }
+
+
   public static class ElevatorConstants {
     public static final int kLeftMotorPort = 21;
     public static final int kRigthMotorPort = 20;
@@ -214,27 +243,6 @@ public final class Constants {
     public static final double k3Lock = 233.0; // 2nd level
   }
 
-  public static class ClimbConstants {
-
-    public static final String kCanBus = "rio";
-    public static final int kMotorPort = 22;
-
-    public static final boolean kClimbMotorInverted = true;
-    public static final NeutralModeValue kIdleMode = NeutralModeValue.Coast; 
-    public static final double maxVoltage = 12.0;
-    public static final int kCurrentLimit = 40;
-
-    public static final double kPPos = 0.55;
-    public static final double kIPos = 0.01;
-    public static final double kDPos = 0;
-    public static final double kPosErrTolerance = 1;
-
-    public static final double climbMax_RadPS = Math.PI/4;
-    public static final double climbMax_RadPSSq = Math.pow(climbMax_RadPS,2);
-
-    public static final double k0Lock = 0;
-    public static final double k1Lock = 0;
-  }
 
   public static class CoralConstants {
     public static final int kMotorPort = 23;
