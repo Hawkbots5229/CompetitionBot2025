@@ -100,6 +100,6 @@ public class CoralSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        SmartDashboard.putNumber("Coral Shooter Velocity", getIntakeVelocity());
+        //SmartDashboard.putNumber("Coral Shooter Velocity", getIntakeVelocity());
   }
 }

@@ -410,15 +410,15 @@ public class DrivetrainSubsystem extends SubsystemBase{
     
     //SmartDashboard.putNumber("RobotPitch", getRobotPitch());
     //SmartDashboard.putNumber("Robot Angle", getRobotRotation2D().getDegrees());
-    SmartDashboard.putNumber("Robot Pitch", m_gyro.getPitch());
-    SmartDashboard.putNumber("Robot Roll", m_gyro.getRoll());
-    SmartDashboard.putNumber("Robot Yaw", m_gyro.getYaw());
-    SmartDashboard.putNumber("Robot Rotation", getRobotRotation2D().getDegrees());
-    SmartDashboard.putNumber("Robot Rotation Raw", m_gyro.getRotation2d().getDegrees());
-    m_frontLeft.sendData();
-    m_frontRight.sendData();
-    m_rearLeft.sendData();
-    m_rearRight.sendData();
+    //SmartDashboard.putNumber("Robot Pitch", m_gyro.getPitch());
+    //SmartDashboard.putNumber("Robot Roll", m_gyro.getRoll());
+    //SmartDashboard.putNumber("Robot Yaw", m_gyro.getYaw());
+    //SmartDashboard.putNumber("Robot Rotation", getRobotRotation2D().getDegrees());
+    //SmartDashboard.putNumber("Robot Rotation Raw", m_gyro.getRotation2d().getDegrees());
+    //m_frontLeft.sendData();
+    //m_frontRight.sendData();
+    //m_rearLeft.sendData();
+    //m_rearRight.sendData();
     
   }
 }
