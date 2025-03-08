@@ -11,9 +11,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Coral Set Speed"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Reef to Coral Station"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Run Intake"
           }
         },
         {
@@ -23,22 +35,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Elevator Level 3"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.75
-                }
-              }
-            ]
+            "name": "Elevator Level 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral Set Speed"
           }
         },
         {
@@ -48,15 +53,9 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Coral Station to End"
+            "name": "Run Intake"
           }
         }
       ]

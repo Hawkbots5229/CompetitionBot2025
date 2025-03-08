@@ -1,0 +1,67 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red Start to Reef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral Set Speed"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red Reef to Station"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Run Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red Station to Reef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator Level 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral Set Speed"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red Reef to Station"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Run Intake"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
