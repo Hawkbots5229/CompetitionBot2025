@@ -23,6 +23,8 @@ public class ClimbController {
                 return ClimbConstants.k0Lock;
             case k1:
                 return ClimbConstants.k1Lock;
+            case k2:
+                return ClimbConstants.k2Lock;
             default:
                 throw new AssertionError("Illegal value: " + pos);
         }

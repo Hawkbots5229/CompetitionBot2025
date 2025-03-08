@@ -211,8 +211,10 @@ public final class Constants {
     public static final double climbMax_RadPS = Math.PI/4;
     public static final double climbMax_RadPSSq = Math.pow(climbMax_RadPS,2);
 
-    public static final double k0Lock = 0;
-    public static final double k1Lock = 0;
+    public static final double k0Lock = 0; // Up
+    public static final double k1Lock = 0; // Right (hook)
+    public static final double k2Lock = 0; // Left (climb)
+
   }
 
 

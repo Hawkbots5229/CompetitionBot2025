@@ -13,7 +13,7 @@ import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase{
 
-    public enum climbPos{k0, k1};
+    public enum climbPos{k0, k1, k2};
 
     private final TalonFX m_climbMotor = new TalonFX(ClimbConstants.kMotorPort, ClimbConstants.kCanBus);
 
