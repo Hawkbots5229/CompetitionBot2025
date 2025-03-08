@@ -87,7 +87,7 @@ public class RobotContainer {
     configureBindings();
 
     //create camera servers
-    //CameraServer.startAutomaticCapture("Elevator Camera", 0);
+    CameraServer.startAutomaticCapture("Elevator Camera", 0);
 
     sc_autonSelect = AutoBuilder.buildAutoChooser();
 
@@ -101,7 +101,7 @@ public class RobotContainer {
 
     SmartDashboard.putData("Auton Selection", sc_autonSelect);
 
-    NamedCommands.registerCommand("Coral Set Speed", new AutonomousCoralSetSpd(m_robotCoral, CoralConstants.kMaxOutput, .5));
+    NamedCommands.registerCommand("Coral Set Speed", new AutonomousCoralSetSpd(m_robotCoral, CoralConstants.kMaxOutputOut, .5));
     NamedCommands.registerCommand("Elevator Level 0", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k0));
     NamedCommands.registerCommand("Elevator Level 1", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k1));
     NamedCommands.registerCommand("Elevator Level 2", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k2));

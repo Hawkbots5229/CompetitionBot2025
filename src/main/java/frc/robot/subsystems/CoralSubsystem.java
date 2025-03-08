@@ -60,7 +60,7 @@ public class CoralSubsystem extends SubsystemBase{
    * 
    */
     public void wheelsIn() {
-        setTargetOutput(CoralConstants.kMaxOutput);
+        setTargetOutput(CoralConstants.kMaxOutputIn);
     }
 
     /** Spins intake forward.
@@ -72,7 +72,7 @@ public class CoralSubsystem extends SubsystemBase{
    * 
    */
     public void wheelsOut() {
-        setTargetOutput(-CoralConstants.kMaxOutput);
+        setTargetOutput(-CoralConstants.kMaxOutputOut);
     }
 
     /** Stops the motors.
