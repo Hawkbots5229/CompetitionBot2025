@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.apriltag.AprilTagFields;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.library.SwerveModule;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import org.photonvision.PhotonCamera;
@@ -92,16 +93,22 @@ public class DrivetrainSubsystem extends SubsystemBase{
       () -> new ChassisSpeeds(getVelocity(), 0, 0)
      */
     AutoBuilder.configure(
-      () -> this.getPose(),
-      pose -> this.resetOdometry(getPose()),
-      () -> new ChassisSpeeds(getVelocity(), 0, 0),
+      this::getPose,
+      this::resetOdometry,
+      this::getRobotRelativeSpeeds,
       (speeds, feedforwards) -> driveRobotRelativeSpeeds(speeds, true),
       new PPHolonomicDriveController(
         new PIDConstants(5.0, 0.0, 0.0),
         new PIDConstants(5.0, 5.0, 5.0)
       ),
       config,
-      () -> false,
+      () -> {
+        var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+      },
       this
     );
   
@@ -331,6 +338,18 @@ public class DrivetrainSubsystem extends SubsystemBase{
     + m_frontRight.getDriveVelocity()
     + m_rearLeft.getDriveVelocity()
     + m_rearRight.getDriveVelocity())/4;
+  }
+
+  /**Gets robot relative speeds as a ChassisSpeeds
+   * 
+   * @return RobotRelativeSpeeds (ChassisSpeeds)
+   * @param None
+   * @implNote edu.wpi.first.kinematics.SwerveDriveKinematics.toChassisSpeeds()
+   * @implNote SwerveModule.getState()
+   * 
+   */
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(m_frontLeft.getState(), m_frontRight.getState(), m_rearLeft.getState(), m_rearRight.getState());
   }
 
   /** Returns the angle of the robot. Direction of rate can be changed with DriveConstants
