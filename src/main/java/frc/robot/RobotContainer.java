@@ -11,6 +11,7 @@ import frc.robot.commands.ClimberSetSpdCommand;
 import frc.robot.commands.CoralSetAngleCommand;
 import frc.robot.commands.CoralSetPosCommand;
 import frc.robot.commands.CoralSetSpdCommand;
+import frc.robot.commands.DriveTrainOrientation;
 import frc.robot.commands.ElevatorCoralSetPosCommand;
 import frc.robot.commands.ElevatorSetPosCommand;
 import frc.robot.commands.IntakeSetAngleCommand;
@@ -35,6 +36,7 @@ import frc.robot.subsystems.CoralPivotSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.CoralPivotSubsystem.coralPos;
 import frc.robot.subsystems.ElevatorSubsystem.elevatorPos;
 import frc.robot.subsystems.IntakePivotSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -101,11 +103,12 @@ public class RobotContainer {
 
     SmartDashboard.putData("Auton Selection", sc_autonSelect);
 
-    NamedCommands.registerCommand("Coral Set Speed", new AutonomousCoralSetSpd(m_robotCoral, CoralConstants.kMaxOutputOut, .5));
-    NamedCommands.registerCommand("Elevator Level 0", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k0));
-    NamedCommands.registerCommand("Elevator Level 1", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k1));
-    NamedCommands.registerCommand("Elevator Level 2", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k2));
-    NamedCommands.registerCommand("Elevator Level 3", new AutonomousElevatorSetPos(m_robotElevator, elevatorPos.k3));
+    NamedCommands.registerCommand("Coral Set Speed", new AutonomousCoralSetSpd(m_robotCoral, CoralSubsystem.coralDir.kOUt, .5));
+    NamedCommands.registerCommand("Run Intake", new AutonomousCoralSetSpd(m_robotCoral, CoralSubsystem.coralDir.kIn, .2));
+    NamedCommands.registerCommand("Elevator Level 0", new AutonomousElevatorSetPos(m_robotElevator, m_coralPivot, elevatorPos.k0, coralPos.k0));
+    NamedCommands.registerCommand("Elevator Level 1", new AutonomousElevatorSetPos(m_robotElevator, m_coralPivot, elevatorPos.k1, coralPos.k1));
+    NamedCommands.registerCommand("Elevator Level 2", new AutonomousElevatorSetPos(m_robotElevator, m_coralPivot, elevatorPos.k2, coralPos.k3));
+    NamedCommands.registerCommand("Elevator Level 3", new AutonomousElevatorSetPos(m_robotElevator, m_coralPivot, elevatorPos.k3, coralPos.k3));
   
   }
 
@@ -175,7 +178,8 @@ public class RobotContainer {
     new POVButton(m_driverController, OIConstants.kLeftDPad)
       .onTrue(new IntakeSetPosCommand(IntakePivotSubsystem.intakePos.k2));
 
-    
+    new JoystickButton(m_driverController, Button.kRightBumper.value)
+      .onTrue(new DriveTrainOrientation(m_robotDrive));
       
   }
 

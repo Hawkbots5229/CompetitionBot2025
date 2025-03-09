@@ -61,7 +61,7 @@ public class AlignRobotCommand extends Command {
     //  rot = -1 * drive.getTargetYaw(DriveConstants.kReefTags) * DriveConstants.maxAngularSpeed;
     //}
 
-    drive.drive(xSpeed * DriveConstants.speedScale, ySpeed * DriveConstants.speedScale, rot * DriveConstants.rotationScale, false, true);
+    //drive.drive(xSpeed * DriveConstants.speedScale, ySpeed * DriveConstants.speedScale, rot * DriveConstants.rotationScale, false, true);
   }
 
   // Called once the command ends or is interrupted.

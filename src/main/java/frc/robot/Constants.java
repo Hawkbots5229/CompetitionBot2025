@@ -109,8 +109,8 @@ public final class Constants {
     public static final double rotMaxOutput = 0.5;
     public static final double stickDeadband = 0.1;
 
-    public static final double speedScaleMin = 0.80;
-    public static final double speedScaleMax = 0.20;
+    public static final double speedScaleMin = 0.10;
+    public static final double speedScaleMax = 0.80;
 
     public static final double rotationScaleMin = 0.1;
     public static final double rotationScaleMax = 0.25;
@@ -152,7 +152,7 @@ public final class Constants {
     kRearLeftTurningMotorReversed, 
     kRearLeftTurningEncoderPorts,
     kRearLeftTurningEncoderReversed,
-    -0.653,
+    -0.595, //-.653
     kuseAbsEnc);
 
   public static final SwerveData SDRearRight = new SwerveData("RR", 
@@ -196,24 +196,24 @@ public final class Constants {
   public static class ClimbConstants {
 
     public static final String kCanBus = "rio";
-    public static final int kMotorPort = 22;
+    public static final int kMotorPort = 26;
 
     public static final boolean kClimbMotorInverted = true;
-    public static final NeutralModeValue kIdleMode = NeutralModeValue.Coast; 
+    public static final NeutralModeValue kIdleMode = NeutralModeValue.Brake; 
     public static final double maxVoltage = 12.0;
     public static final int kCurrentLimit = 40;
 
-    public static final double kPPos = 0.55;
-    public static final double kIPos = 0.01;
-    public static final double kDPos = 0;
+    public static final double kPPos = 0.01;
+    public static final double kIPos = 0.00;
+    public static final double kDPos = 0.0;
     public static final double kPosErrTolerance = 1;
 
-    public static final double climbMax_RadPS = Math.PI/4;
+    public static final double climbMax_RadPS = Math.PI/0.5;
     public static final double climbMax_RadPSSq = Math.pow(climbMax_RadPS,2);
 
     public static final double k0Lock = 0; // Up
-    public static final double k1Lock = 0; // Right (hook)
-    public static final double k2Lock = 0; // Left (climb)
+    public static final double k1Lock = -289; // Right (hook)
+    public static final double k2Lock = 360; // Left (climb)
 
   }
 
@@ -240,9 +240,9 @@ public final class Constants {
     public static final boolean kRightMotorInverted = false;
 
     public static final double k0Lock = 0.0; // Down
-    public static final double k1Lock = 110.0; // 1st level
-    public static final double k2Lock = 8.0; // Intake
-    public static final double k3Lock = 233.0; // 2nd level
+    public static final double k1Lock = 100.0; // 1st level
+    public static final double k2Lock = 0.0; // Intake
+    public static final double k3Lock = 200.0; // 2nd level
   }
 
 
@@ -259,7 +259,7 @@ public final class Constants {
     public static final int kCoralHingeCurrentLimit = 40;
     public static final double kOpenLoopRampRate = 0;
     public static final double kMaxOutputOut = 0.6;
-    public static final double kMaxOutputIn = 0.3;
+    public static final double kMaxOutputIn = 0.4;
         
     public static final double kGearBoxRatio = 1/7.0;
     public static final double kEncoderRpmToWheelRpm = kGearBoxRatio;
@@ -267,7 +267,7 @@ public final class Constants {
     public static final double kMaxVel = 1;
 
     public static final double kPPos = 0.001;
-    public static final double kIPos = 0.0005;
+    public static final double kIPos = 0.0; //.005
     public static final double kDPos = 0;
     public static final double kPosErrTolerance = 1;
 
@@ -275,9 +275,9 @@ public final class Constants {
     public static final double max_RadPSSq = Math.pow(max_RadPS,4);
   
     public static final double k0Lock = 0.0; //Down
-    public static final double k1Lock = 70.0; // 1st level
-    public static final double k2Lock = 180.0; // Intake
-    public static final double k3Lock = 70.0; // Second level
+    public static final double k1Lock = 55.0; // 1st level
+    public static final double k2Lock = 150.0; // Intake
+    public static final double k3Lock = 55.0; // Second level
   }
 
   public static class IntakeConstants {
@@ -292,14 +292,14 @@ public final class Constants {
     public static final int kIntakeCurrentLimit = 30;
     public static final int kIntakeHingeCurrentLimit = 40;
     public static final double kOpenLoopRampRate = 0;
-    public static final double kMaxOutput = 0.5;
+    public static final double kMaxOutput = 1.0;
         
     public static final double kGearBoxRatio = 1/7.0;
     public static final double kEncoderRpmToWheelRpm = kGearBoxRatio;
 
     public static final double kMaxVel = 1;
 
-    public static final double kPPos = 0.04;
+    public static final double kPPos = 0.05;
     public static final double kIPos = 0.01;
     public static final double kDPos = 0.0;
     public static final double kPosErrTolerance = 1;

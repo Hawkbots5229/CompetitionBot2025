@@ -12,12 +12,12 @@ import frc.robot.subsystems.CoralSubsystem;
 public class AutonomousCoralSetSpd extends Command {
   private final CoralSubsystem s_robotCoral;
   private final Timer tmr = new Timer();
-  private final double speed;
+  private final CoralSubsystem.coralDir dir;
   private final double time;
-  public AutonomousCoralSetSpd(CoralSubsystem s_robotCoral, double speed, double time) {
+  public AutonomousCoralSetSpd(CoralSubsystem s_robotCoral, CoralSubsystem.coralDir dir, double time) {
     addRequirements(s_robotCoral);
     this.s_robotCoral = s_robotCoral;
-    this.speed = speed;
+    this.dir = dir;
     this.time = time;
   }
 
@@ -31,7 +31,18 @@ public class AutonomousCoralSetSpd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_robotCoral.setTargetOutput(speed);
+    switch (dir) {
+      case kIn:
+        s_robotCoral.wheelsIn();
+        break;
+      case kOUt:
+        s_robotCoral.wheelsOut();
+        break;
+      case kOff:
+        s_robotCoral.stopMotors();
+      default:
+      throw new AssertionError("Illegal value: " + dir);
+    }
   }
 
   // Called once the command ends or is interrupted.

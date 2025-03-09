@@ -27,12 +27,12 @@ public class ClimbDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if((s_robotClimb.getAngle() >= ClimbConstants.k1Lock && RobotContainer.l_climbPos.getTargetEnum() == ClimbSubsystem.climbPos.k1) ||
-    (s_robotClimb.getAngle() <= ClimbConstants.k0Lock && RobotContainer.l_climbPos.getTargetEnum() == ClimbSubsystem.climbPos.k0)) {
+    if((s_robotClimb.getAngle() >= ClimbConstants.k2Lock && RobotContainer.l_climbPos.getTargetEnum() == ClimbSubsystem.climbPos.k2) ||
+    (s_robotClimb.getAngle() <= ClimbConstants.k1Lock && RobotContainer.l_climbPos.getTargetEnum() == ClimbSubsystem.climbPos.k1)) {
       s_robotClimb.stopMotor();
     }
     else {
-      s_robotClimb.setPosition(RobotContainer.l_coralPos.getTargetPosition());
+      s_robotClimb.setPosition(RobotContainer.l_climbPos.getTargetPosition());
     }
   }
 

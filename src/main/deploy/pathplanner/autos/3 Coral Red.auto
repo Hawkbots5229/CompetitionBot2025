@@ -13,6 +13,12 @@
         {
           "type": "named",
           "data": {
+            "name": "Elevator Level 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Coral Set Speed"
           }
         },
@@ -20,6 +26,18 @@
           "type": "path",
           "data": {
             "pathName": "Red Reef to Station"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator Level 2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         },
         {
@@ -50,6 +68,18 @@
           "type": "path",
           "data": {
             "pathName": "Red Reef to Station"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator Level 2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         },
         {

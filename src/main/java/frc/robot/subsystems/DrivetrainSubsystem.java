@@ -86,6 +86,11 @@ public class DrivetrainSubsystem extends SubsystemBase{
       throw new RuntimeException("Unable to initialize RobotConfig.");
     }
 
+    /*
+     * () -> this.getPose(),
+      pose -> this.resetOdometry(getPose()),
+      () -> new ChassisSpeeds(getVelocity(), 0, 0)
+     */
     AutoBuilder.configure(
       () -> this.getPose(),
       pose -> this.resetOdometry(getPose()),
@@ -96,7 +101,7 @@ public class DrivetrainSubsystem extends SubsystemBase{
         new PIDConstants(5.0, 5.0, 5.0)
       ),
       config,
-      () ->false,
+      () -> false,
       this
     );
   
@@ -387,6 +392,10 @@ public class DrivetrainSubsystem extends SubsystemBase{
     this.isFieldRelative = frm;
   }
 
+  public boolean getFieldRelative(){
+    return this.isFieldRelative;
+  }
+
   /** Stops all the drive motors.
    * 
    * @return Void
@@ -409,16 +418,17 @@ public class DrivetrainSubsystem extends SubsystemBase{
     updateOdometry();
     
     //SmartDashboard.putNumber("RobotPitch", getRobotPitch());
-    //SmartDashboard.putNumber("Robot Angle", getRobotRotation2D().getDegrees());
+    SmartDashboard.putNumber("Robot Angle", getRobotRotation2D().getDegrees());
     //SmartDashboard.putNumber("Robot Pitch", m_gyro.getPitch());
     //SmartDashboard.putNumber("Robot Roll", m_gyro.getRoll());
     //SmartDashboard.putNumber("Robot Yaw", m_gyro.getYaw());
     //SmartDashboard.putNumber("Robot Rotation", getRobotRotation2D().getDegrees());
     //SmartDashboard.putNumber("Robot Rotation Raw", m_gyro.getRotation2d().getDegrees());
-    //m_frontLeft.sendData();
-    //m_frontRight.sendData();
-    //m_rearLeft.sendData();
-    //m_rearRight.sendData();
+    SmartDashboard.putBoolean("Field Relative", this.isFieldRelative);
+    m_frontLeft.sendData();
+    m_frontRight.sendData();
+    m_rearLeft.sendData();
+    m_rearRight.sendData();
     
   }
 }

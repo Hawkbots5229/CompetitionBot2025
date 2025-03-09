@@ -6,29 +6,36 @@ package frc.robot.commands.auton;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.CoralPivotSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutonomousElevatorSetPos extends Command {
   private final ElevatorSubsystem s_robotElevator;
-  private final ElevatorSubsystem.elevatorPos pos;
+  private final CoralPivotSubsystem s_coralPivot;
+  private final ElevatorSubsystem.elevatorPos elevatorPos;
+  private final CoralPivotSubsystem.coralPos coralPos;
 
-  public AutonomousElevatorSetPos(ElevatorSubsystem s_robotElevator, ElevatorSubsystem.elevatorPos pos) {
+  public AutonomousElevatorSetPos(ElevatorSubsystem s_robotElevator, CoralPivotSubsystem s_coralPivot, ElevatorSubsystem.elevatorPos elevatorPos, CoralPivotSubsystem.coralPos coralPos) {
     addRequirements(s_robotElevator);
     this.s_robotElevator = s_robotElevator;
-    this.pos = pos;
+    this.s_coralPivot = s_coralPivot;
+    this.elevatorPos = elevatorPos;
+    this.coralPos = coralPos;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.l_elevatorPos.setTargetPosition(pos);
+    RobotContainer.l_elevatorPos.setTargetPosition(elevatorPos);
+    RobotContainer.l_coralPos.setTargetPosition(coralPos);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     s_robotElevator.setPosition(RobotContainer.l_elevatorPos.getTargetPosition());
+    s_coralPivot.setPosition(RobotContainer.l_coralPos.getTargetPosition());
   }
 
   // Called once the command ends or is interrupted.
