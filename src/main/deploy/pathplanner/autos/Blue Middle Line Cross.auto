@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue Middle Line Cross"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator Level 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral Set Speed"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

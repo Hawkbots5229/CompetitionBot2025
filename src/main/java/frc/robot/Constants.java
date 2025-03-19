@@ -212,8 +212,8 @@ public final class Constants {
     public static final double climbMax_RadPSSq = Math.pow(climbMax_RadPS,2);
 
     public static final double k0Lock = 0; // Up
-    public static final double k1Lock = -289; // Right (hook)
-    public static final double k2Lock = 360; // Left (climb)
+    public static final double k1Lock = -990; // Right (hook)
+    public static final double k2Lock = 1570; // Left (climb)
 
   }
 
@@ -240,16 +240,16 @@ public final class Constants {
     public static final boolean kRightMotorInverted = false;
 
     public static final double k0Lock = 0.0; // Down
-    public static final double k1Lock = 100.0; // 1st level
+    public static final double k1Lock = 110.0; // 1st level
     public static final double k2Lock = 0.0; // Intake
-    public static final double k3Lock = 200.0; // 2nd level
+    public static final double k3Lock = 240.0; // 2nd level
   }
 
 
   public static class CoralConstants {
     public static final int kMotorPort = 23;
     public static final int kMotorHingePort = 22;
-    public static final boolean kCoralMotorInverted = false;
+    public static final boolean kCoralMotorInverted = true;
     public static final boolean kCoralHingeMotorInverted = true;
 
     public static final IdleMode kCoralIdleMode = IdleMode.kBrake;
@@ -258,15 +258,15 @@ public final class Constants {
     public static final int kCoralCurrentLimit = 30;
     public static final int kCoralHingeCurrentLimit = 40;
     public static final double kOpenLoopRampRate = 0;
-    public static final double kMaxOutputOut = 0.6;
-    public static final double kMaxOutputIn = 0.4;
+    public static final double kMaxOutputOut = 1.0;
+    public static final double kMaxOutputIn = 0.5;
         
     public static final double kGearBoxRatio = 1/7.0;
     public static final double kEncoderRpmToWheelRpm = kGearBoxRatio;
 
     public static final double kMaxVel = 1;
 
-    public static final double kPPos = 0.001;
+    public static final double kPPos = 0.0005;
     public static final double kIPos = 0.0; //.005
     public static final double kDPos = 0;
     public static final double kPosErrTolerance = 1;
@@ -274,10 +274,11 @@ public final class Constants {
     public static final double max_RadPS = Math.PI/2.0;
     public static final double max_RadPSSq = Math.pow(max_RadPS,4);
   
+    // max 379
     public static final double k0Lock = 0.0; //Down
-    public static final double k1Lock = 55.0; // 1st level
-    public static final double k2Lock = 150.0; // Intake
-    public static final double k3Lock = 55.0; // Second level
+    public static final double k1Lock = 90.0; // 1st level 55
+    public static final double k2Lock = 300.0; // Intake 150
+    public static final double k3Lock = 90.0; // Second level
   }
 
   public static class IntakeConstants {

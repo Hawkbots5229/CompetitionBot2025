@@ -152,12 +152,12 @@ public class RobotContainer {
     new JoystickButton(m_mechController, Button.kB.value)
     .onTrue(new ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos.k2, CoralPivotSubsystem.coralPos.k2));
     
-    new JoystickButton(m_mechController, Button.kLeftBumper.value)
-      .onTrue(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kIn))
-      .onFalse(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOff));
-    new JoystickButton(m_mechController, Button.kRightBumper.value)
-      .onTrue(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOUt))
-      .onFalse(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOff));
+     new JoystickButton(m_mechController, Button.kLeftBumper.value)
+       .onTrue(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kIn))
+       .onFalse(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOff));
+     new JoystickButton(m_mechController, Button.kRightBumper.value)
+       .onTrue(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOUt))
+       .onFalse(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOff));
 
     /*
     new JoystickButton(m_driverController, Button.kLeftBumper.value)
