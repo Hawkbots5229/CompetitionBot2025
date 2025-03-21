@@ -99,7 +99,7 @@ public class DrivetrainSubsystem extends SubsystemBase{
       (speeds, feedforwards) -> driveRobotRelativeSpeeds(speeds, true),
       new PPHolonomicDriveController(
         new PIDConstants(5.0, 0.0, 0.0),
-        new PIDConstants(5.0, 5.0, 5.0)
+        new PIDConstants(5.0, 0.0, 0.0)
       ),
       config,
       () -> {
@@ -158,9 +158,10 @@ public class DrivetrainSubsystem extends SubsystemBase{
   public Boolean targetVisible() {
     var results = camera.getAllUnreadResults();
     if (!results.isEmpty()) {
-      //var result = results.get(results.size() - 1);
-      // TODO
-      //if (result.)
+      var result = results.get(results.size() - 1);
+      if (result.hasTargets()){
+        return true;
+      }
       return false;
     } else {
       return false;
@@ -168,7 +169,7 @@ public class DrivetrainSubsystem extends SubsystemBase{
   }
 
   //calculates the difference in heading of the robot and april tag it's looking at
-  public double getTargetYaw(List<Integer> tagID) {
+  public double getTargetYaw() {
     var results = camera.getAllUnreadResults();
     if (!results.isEmpty()) {
       var result = results.get(results.size() - 1);

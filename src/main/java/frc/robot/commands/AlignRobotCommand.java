@@ -14,8 +14,6 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlignRobotCommand extends Command {
-    private final SlewRateLimiter m_xspeedLimiter = new SlewRateLimiter(10);
-  private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(10);
   private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(10);
 
   PIDController m_rotationPIDController = new PIDController(DriveConstants.rotKp, DriveConstants.rotKi, DriveConstants.rotKd);
@@ -36,32 +34,14 @@ public class AlignRobotCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    var xSpeed =
-      -m_xspeedLimiter.calculate(MathUtil.applyDeadband(RobotContainer.m_driverController.getLeftY(), DriveConstants.stickDeadband))
-        * DriveConstants.maxSpeed;
-
-    // Get the y speed or sideways/strafe speed. We are inverting this because
-    // we want a positive value when we pull to the left. Xbox controllers
-    // return positive values when you pull to the right by default.
-    var ySpeed =
-      -m_yspeedLimiter.calculate(MathUtil.applyDeadband(RobotContainer.m_driverController.getLeftX(), DriveConstants.stickDeadband))
-        * DriveConstants.maxSpeed;
-
-    // Get the rate of angular rotation. We are inverting this because we want a
-    // positive value when we pull to the left (remember, CCW is positive in
-    // mathematics). Xbox controllers return positive values when you pull to
-    // the right by default.
-    var rot =
-      -m_rotLimiter.calculate(MathUtil.applyDeadband(RobotContainer.m_driverController.getRightX(), DriveConstants.stickDeadband))
-        * DriveConstants.maxAngularSpeed;
+    double rot = 0;
 
     //TODO    
-    //if (drive.targetVisible()) {
-    //  rot = -1 * drive.getTargetYaw(DriveConstants.kReefTags) * DriveConstants.maxAngularSpeed;
-    //}
+    if (drive.targetVisible()) {
+      rot = drive.getTargetYaw() * DriveConstants.maxAngularSpeed;
+    }
 
-    //drive.drive(xSpeed * DriveConstants.speedScale, ySpeed * DriveConstants.speedScale, rot * DriveConstants.rotationScale, false, true);
+    drive.drive(0, 0, rot * DriveConstants.rotationScaleMin, false, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -73,8 +53,6 @@ public class AlignRobotCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //TODO
-    //return drive.getTargetYaw(DriveConstants.kReefTags) == 0;
-    return true;
+    return drive.getTargetYaw() == 0;
   }
 }
