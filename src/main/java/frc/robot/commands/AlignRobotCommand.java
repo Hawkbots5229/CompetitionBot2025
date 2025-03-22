@@ -15,6 +15,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlignRobotCommand extends Command {
   private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(10);
+  double rot;
 
   PIDController m_rotationPIDController = new PIDController(DriveConstants.rotKp, DriveConstants.rotKi, DriveConstants.rotKd);
   DrivetrainSubsystem drive;
@@ -29,16 +30,17 @@ public class AlignRobotCommand extends Command {
   public void initialize() {
     m_rotationPIDController.setTolerance(DriveConstants.rotToleranceDeg, DriveConstants.rotToleranceVel);
     m_rotationPIDController.setIntegratorRange(0, .5);
+    rot = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double rot = 0;
+    System.out.println(drive.targetVisible());
 
     //TODO    
     if (drive.targetVisible()) {
-      rot = drive.getTargetYaw() * DriveConstants.maxAngularSpeed;
+      rot = m_rotationPIDController.calculate(drive.getTargetYaw());
     }
 
     drive.drive(0, 0, rot * DriveConstants.rotationScaleMin, false, true);

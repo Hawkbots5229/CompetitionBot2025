@@ -52,7 +52,7 @@ public class DrivetrainSubsystem extends SubsystemBase{
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
 
-  private final PhotonCamera camera = new PhotonCamera("Arducam1");
+  private final PhotonCamera camera = new PhotonCamera("Left Camera");
   private final PhotonPipelineResult result = new PhotonPipelineResult();
   private final PhotonTrackedTarget target = new PhotonTrackedTarget();
   private final AprilTagFieldLayout aprilTag = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
@@ -160,10 +160,13 @@ public class DrivetrainSubsystem extends SubsystemBase{
     if (!results.isEmpty()) {
       var result = results.get(results.size() - 1);
       if (result.hasTargets()){
+        System.out.println("has Targets");
         return true;
       }
+      System.out.println("false");
       return false;
     } else {
+      System.out.println("false");
       return false;
     }
   }

@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AlignRobotCommand;
 import frc.robot.commands.ClimberSetPosCommand;
 import frc.robot.commands.ClimberSetSpdCommand;
 import frc.robot.commands.CoralSetAngleCommand;
@@ -177,6 +178,8 @@ public class RobotContainer {
 
     new POVButton(m_driverController, OIConstants.kLeftDPad)
       .onTrue(new IntakeSetPosCommand(IntakePivotSubsystem.intakePos.k2));
+    new POVButton(m_driverController, OIConstants.kDownDPad)
+      .onTrue(new AlignRobotCommand(m_robotDrive));
 
     new JoystickButton(m_driverController, Button.kRightBumper.value)
       .onTrue(new DriveTrainOrientation(m_robotDrive));
