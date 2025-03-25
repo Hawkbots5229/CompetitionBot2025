@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.photonvision.PhotonCamera;
 //import org.photonvision.targeting.PhotonPipelineResult;
@@ -9,24 +10,34 @@ import org.photonvision.PhotonCamera;
 import com.studica.frc.AHRS;
 //import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.estimator.PoseEstimator;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 //import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.apriltag.AprilTagFields;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.library.SwerveModule;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.PhotonUtils;
+import org.photonvision.proto.Photon;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.pathplanner.lib.config.PIDConstants;
@@ -52,11 +63,28 @@ public class DrivetrainSubsystem extends SubsystemBase{
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
 
-  private final PhotonCamera camera = new PhotonCamera("Left Camera");
-  private final PhotonPipelineResult result = new PhotonPipelineResult();
-  private final PhotonTrackedTarget target = new PhotonTrackedTarget();
+  private final PhotonCamera leftCamera = new PhotonCamera("Left Camera");
+
   private final AprilTagFieldLayout aprilTag = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
   
+  private final SwerveDrivePoseEstimator poseEstimator;
+
+  private final Field2d field2d = new Field2d();
+  
+  private double previousPipelineTimestamp = 0;
+
+  /**
+   * Standard deviations of model states. Increase these numbers to trust your model's state estimates less. This
+   * matrix is in the form [x, y, theta]ᵀ, with units in meters and radians, then meters.
+   */
+  private static final Vector<N3> stateStdDevs = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
+
+  /**
+   * Standard deviations of the vision measurements. Increase these numbers to trust global measurements from vision
+   * less. This matrix is in the form [x, y, theta]ᵀ, with units in meters and radians.
+   */
+  private static final Vector<N3> visionMeasurementStdDevs = VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(10));
+
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry =
@@ -112,6 +140,17 @@ public class DrivetrainSubsystem extends SubsystemBase{
       this
     );
   
+    poseEstimator =  new SwerveDrivePoseEstimator(
+      DriveConstants.kDriveKinematics,
+      m_gyro.getRotation2d(),
+      new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()},
+      new Pose2d(),
+      stateStdDevs,
+      visionMeasurementStdDevs);
   }
 
   /** Updates the robot odometry.
@@ -147,39 +186,7 @@ public class DrivetrainSubsystem extends SubsystemBase{
   }
 
   public Pose2d getPose2d() {
-    if (aprilTag.getTagPose(target.getFiducialId()).isPresent()){
-      return PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), aprilTag.getTagPose(target.getFiducialId()).get(), new Transform3d()).toPose2d();
-    } else {
-      return null;
-    }
-  }
-
-
-  public Boolean targetVisible() {
-    var results = camera.getAllUnreadResults();
-    if (!results.isEmpty()) {
-      var result = results.get(results.size() - 1);
-      if (result.hasTargets()){
-        System.out.println("has Targets");
-        return true;
-      }
-      System.out.println("false");
-      return false;
-    } else {
-      System.out.println("false");
-      return false;
-    }
-  }
-
-  //calculates the difference in heading of the robot and april tag it's looking at
-  public double getTargetYaw() {
-    var results = camera.getAllUnreadResults();
-    if (!results.isEmpty()) {
-      var result = results.get(results.size() - 1);
-      return getPose().getRotation().getDegrees() - aprilTag.getTagPose(result.getBestTarget().getFiducialId()).get().toPose2d().getRotation().getDegrees();
-    } else {
-      return 0;
-    }
+    return poseEstimator.getEstimatedPosition();
   }
 
   /**
@@ -453,5 +460,33 @@ public class DrivetrainSubsystem extends SubsystemBase{
     m_rearLeft.sendData();
     m_rearRight.sendData();
     
+    var pipelineResult = leftCamera.getLatestResult();
+    var resultTimestamp = pipelineResult.getTimestampSeconds();
+    if (resultTimestamp != previousPipelineTimestamp && pipelineResult.hasTargets()) {
+      previousPipelineTimestamp = resultTimestamp;
+      var target = pipelineResult.getBestTarget();
+      var fiducialId = target.getFiducialId();
+      // Get the tag pose from field layout - consider that the layout will be null if it failed to load
+      Optional<Pose3d> tagPose = aprilTag == null ? Optional.empty() : aprilTag.getTagPose(fiducialId);
+      if (target.getPoseAmbiguity() <= .2 && fiducialId >= 0 && tagPose.isPresent()) {
+        var targetPose = tagPose.get();
+        Transform3d camToTarget = target.getBestCameraToTarget();
+        Pose3d camPose = targetPose.transformBy(camToTarget.inverse());
+
+        var visionMeasurement = camPose.transformBy(new Transform3d(.165, .165, 0, new Rotation3d()));
+        poseEstimator.addVisionMeasurement(visionMeasurement.toPose2d(), resultTimestamp);
+      }
+    }
+
+    poseEstimator.update(
+      m_gyro.getRotation2d(),
+      new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()
+      });
+
+    field2d.setRobotPose(getPose2d());
   }
 }

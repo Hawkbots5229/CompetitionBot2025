@@ -62,7 +62,7 @@ public class DriveTrainDefaultCommand extends Command {
     double speedScale = Math.max(Math.min(1.0-RobotContainer.m_driverController.getLeftTriggerAxis(), DriveConstants.speedScaleMax), DriveConstants.speedScaleMin);
     double rotationScale = Math.max(Math.min(1.0-RobotContainer.m_driverController.getRightTriggerAxis(), DriveConstants.rotationScaleMax), DriveConstants.rotationScaleMin);
     //dSystem.out.println(speedScale);    
-    RobotContainer.m_robotDrive.drive(xSpeed * speedScale, ySpeed * speedScale, rot*rotationScale,RobotContainer.m_robotDrive.isFieldRelative,true);
+    RobotContainer.m_robotDrive.drive(xSpeed * speedScale, ySpeed * speedScale, rot * rotationScale, RobotContainer.m_robotDrive.isFieldRelative, true);
   }
 
   // Called once the command ends or is interrupted.
