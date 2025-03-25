@@ -27,6 +27,8 @@ public class CoralController {
                 return CoralConstants.k2Lock;
             case k3:
                 return CoralConstants.k3Lock;
+            case k4:
+                return CoralConstants.k4Lock;
             default:
                 throw new AssertionError("Illegal value: " + pos);
         }

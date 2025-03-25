@@ -112,8 +112,8 @@ public final class Constants {
     public static final double speedScaleMin = 0.10;
     public static final double speedScaleMax = 0.80;
 
-    public static final double rotationScaleMin = 0.1;
-    public static final double rotationScaleMax = 0.25;
+    public static final double rotationScaleMin = 0.025;
+    public static final double rotationScaleMax = 0.200;
 
     public static final double MetersPerInch = 1/39.37008;
     public static final int kCurrentLimit = 40;
@@ -199,7 +199,7 @@ public final class Constants {
     public static final int kMotorPort = 26;
 
     public static final boolean kClimbMotorInverted = true;
-    public static final NeutralModeValue kIdleMode = NeutralModeValue.Brake; 
+    public static final NeutralModeValue kIdleMode = NeutralModeValue.Coast; 
     public static final double maxVoltage = 12.0;
     public static final int kCurrentLimit = 40;
 
@@ -239,10 +239,12 @@ public final class Constants {
     public static final boolean kLeftMoterInverted = true;
     public static final boolean kRightMotorInverted = false;
 
-    public static final double k0Lock = 0.0; // Down
-    public static final double k1Lock = 110.0; // 1st level
-    public static final double k2Lock = 0.0; // Intake
-    public static final double k3Lock = 240.0; // 2nd level
+    // Max 262
+    public static final double k0Lock = 0.0;     // Down
+    public static final double k1Lock = 110.0;   // 1st level
+    public static final double k2Lock = 0.0;     // Intake
+    public static final double k3Lock = 240.0;   // 2nd level
+    public static final double k4Lock = 255.0;   // 3rd level
   }
 
 
@@ -275,10 +277,11 @@ public final class Constants {
     public static final double max_RadPSSq = Math.pow(max_RadPS,4);
   
     // max 379
-    public static final double k0Lock = 0.0; //Down
-    public static final double k1Lock = 90.0; // 1st level 55
-    public static final double k2Lock = 300.0; // Intake 150
-    public static final double k3Lock = 90.0; // Second level
+    public static final double k0Lock = 0.0;    //Down
+    public static final double k1Lock = 90.0;   // 1st level
+    public static final double k2Lock = 280.0;  // Intake
+    public static final double k3Lock = 90.0;   // 2nd level
+    public static final double k4Lock = 300.0;  // 3rd level
   }
 
   public static class IntakeConstants {
@@ -308,9 +311,9 @@ public final class Constants {
     public static final double max_RadPS = Math.PI/0.25;
     public static final double max_RadPSSq = Math.pow(max_RadPS,2);
 
-    public static final double k0Lock = 0.0;
-    public static final double k1Lock = 128.0;
-    public static final double k2Lock = 175.0;
+    public static final double k0Lock = 0.0;   // Up
+    public static final double k1Lock = 110.0; // Alge
+    public static final double k2Lock = 175.0; // Floor
   }
 
 }

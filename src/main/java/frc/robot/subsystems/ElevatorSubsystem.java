@@ -16,7 +16,7 @@ import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase{
 
-    public enum elevatorPos{k0, k1, k2, k3};
+    public enum elevatorPos{k0, k1, k2, k3, k4};
 
     private final SparkMax m_left =
         new SparkMax(ElevatorConstants.kLeftMotorPort, MotorType.kBrushless);

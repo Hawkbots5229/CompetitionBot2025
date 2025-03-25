@@ -27,6 +27,8 @@ public class ElevatorController {
                 return ElevatorConstants.k2Lock;
             case k3:
                 return ElevatorConstants.k3Lock;
+            case k4:
+                return ElevatorConstants.k4Lock;
             default:
                 throw new AssertionError("Illegal value: " + pos);
         }

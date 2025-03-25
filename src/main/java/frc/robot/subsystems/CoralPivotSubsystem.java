@@ -20,7 +20,7 @@ import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.IntakeConstants;
 
 public class CoralPivotSubsystem extends SubsystemBase {
-  public enum coralPos{k0, k1, k2, k3};
+  public enum coralPos{k0, k1, k2, k3, k4};
 
   private final SparkMax m_coralHinge = new SparkMax(CoralConstants.kMotorHingePort, MotorType.kBrushless);
   private final RelativeEncoder m_coralHingeEncoder = m_coralHinge.getEncoder();

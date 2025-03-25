@@ -143,15 +143,16 @@ public class RobotContainer {
     //  .onTrue(new IntakeSetAngleCommand(m_robotIntake, -0.2))
     //  .onFalse(new IntakeSetAngleCommand(m_robotIntake, 0));
     
-
+    new JoystickButton(m_driverController, Button.kA.value)
+      .onTrue(new ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos.k0, CoralPivotSubsystem.coralPos.k0));
     new JoystickButton(m_mechController, Button.kY.value)
-      .onTrue(new ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos.k3, CoralPivotSubsystem.coralPos.k3));
+      .onTrue(new ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos.k4, CoralPivotSubsystem.coralPos.k4));
     new JoystickButton(m_mechController, Button.kA.value)
-    .onTrue(new ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos.k0, CoralPivotSubsystem.coralPos.k0));
+      .onTrue(new ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos.k1, CoralPivotSubsystem.coralPos.k1));
     new JoystickButton(m_mechController, Button.kX.value)
-    .onTrue(new ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos.k1, CoralPivotSubsystem.coralPos.k1));
+      .onTrue(new ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos.k3, CoralPivotSubsystem.coralPos.k3));
     new JoystickButton(m_mechController, Button.kB.value)
-    .onTrue(new ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos.k2, CoralPivotSubsystem.coralPos.k2));
+      .onTrue(new ElevatorCoralSetPosCommand(ElevatorSubsystem.elevatorPos.k2, CoralPivotSubsystem.coralPos.k2));
     
      new JoystickButton(m_mechController, Button.kLeftBumper.value)
        .onTrue(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kIn))
@@ -161,20 +162,13 @@ public class RobotContainer {
        .onFalse(new CoralSetSpdCommand(m_robotCoral, CoralSubsystem.coralDir.kOff));
 
     /*
-    new JoystickButton(m_driverController, Button.kLeftBumper.value)
-      .onTrue(new ClimberSetSpdCommand(m_robotClimb, .5))
-      .onFalse(new ClimberSetSpdCommand(m_robotClimb, 0));
-    new JoystickButton(m_driverController, Button.kRightBumper.value)
-      .onTrue(new ClimberSetSpdCommand(m_robotClimb, -.5))
-      .onFalse(new ClimberSetSpdCommand(m_robotClimb, 0));
-    */
-
     new JoystickButton(m_driverController, Button.kY.value)
       .onTrue(new ClimberSetPosCommand(ClimbSubsystem.climbPos.k0));
     new JoystickButton(m_driverController, Button.kB.value)
       .onTrue(new ClimberSetPosCommand(ClimbSubsystem.climbPos.k1));
     new JoystickButton(m_driverController, Button.kX.value)
       .onTrue(new ClimberSetPosCommand(ClimbSubsystem.climbPos.k2));
+    */
 
     new POVButton(m_driverController, OIConstants.kLeftDPad)
       .onTrue(new IntakeSetPosCommand(IntakePivotSubsystem.intakePos.k2));
