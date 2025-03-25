@@ -51,6 +51,8 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.photonvision.PhotonCamera;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -82,6 +84,9 @@ public class RobotContainer {
 
   public static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public static XboxController m_mechController = new XboxController(OIConstants.kMechControllerPort);
+
+  private final PhotonCamera rightCamera = new PhotonCamera("Right Camera");
+  private final PhotonCamera leftCamera = new PhotonCamera("Left Camera");
 
   private final SendableChooser<Command> sc_autonSelect;
 
@@ -170,10 +175,10 @@ public class RobotContainer {
       .onTrue(new ClimberSetPosCommand(ClimbSubsystem.climbPos.k2));
     */
 
-    new POVButton(m_driverController, OIConstants.kLeftDPad)
-      .onTrue(new IntakeSetPosCommand(IntakePivotSubsystem.intakePos.k2));
     new POVButton(m_driverController, OIConstants.kDownDPad)
-      .onTrue(new AlignRobotCommand(m_robotDrive));
+      .onTrue(new IntakeSetPosCommand(IntakePivotSubsystem.intakePos.k2));
+    new POVButton(m_driverController, OIConstants.kLeftDPad)
+      .whileTrue(new AlignRobotCommand(leftCamera, m_robotDrive, () -> m_robotDrive.getPose2d(), leftCamera.getLatestResult().getBestTarget().getFiducialId()));
 
     new JoystickButton(m_driverController, Button.kRightBumper.value)
       .onTrue(new DriveTrainOrientation(m_robotDrive));
